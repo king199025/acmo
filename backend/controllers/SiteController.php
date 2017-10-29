@@ -1,6 +1,9 @@
 <?php
 namespace backend\controllers;
 
+use backend\modules\region\Region;
+use common\classes\Debug;
+use common\models\AcmoApi;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -55,6 +58,9 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        $region = \backend\modules\region\models\Region::findOne(1);
+        $acmo = AcmoApi::get($region->url);
+        Debug::prn($acmo->getMeteo(['date' => date('d.m.Y', time() - '1 day')]));
         return $this->render('index');
     }
 

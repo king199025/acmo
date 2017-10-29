@@ -57,6 +57,11 @@ class MainMenuAdmin extends Widget
                         ],
                         'template' => '<a href="#"><i class="fa fa-dashboard"></i> <span>{label}</span> <i class="fa fa-angle-left pull-right"></i></a>',
                     ],
+                    [
+                        'label' => 'Регионы',
+                        'url' => Url::to(['/region/region']),
+                        'template' => '<a href="{url}"><i class="fa fa-map-marker"></i> <span>{label}</span></a>',
+                    ],
                 ],
                 'activateItems' => true,
                 'activateParents' => true,
