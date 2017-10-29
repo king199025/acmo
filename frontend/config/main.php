@@ -39,12 +39,18 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-
+                '' => '/mainpage/default',
+                'login' => '/user/security/login',
             ]
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             'useFileTransport' => false,
+        ],
+    ],
+    'modules' => [
+        'mainpage' => [
+            'class' => 'frontend\modules\mainpage\Mainpage',
         ],
     ],
     'params' => $params,
