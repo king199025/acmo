@@ -28,7 +28,10 @@ AppAsset::register($this);
 
 <div class="app">
     <?= \frontend\widgets\ShowHeader::widget();?>
+    <main>
+    <?= \frontend\widgets\ShowLeftSidebur::widget(); ?>
     <?= $content; ?>
+    </main>
 </div>
 
 
