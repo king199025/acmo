@@ -10,7 +10,7 @@ use yii\db\Exception;
  * Class AcmoApi
  * @package backend\models
  */
-class AcmoApi
+class AcmoApi extends BaseAPI
 {
     public $url = '';
     const USER_LOGIN = 'taranishin';
@@ -66,7 +66,7 @@ class AcmoApi
     /**
      * @param $type
      * @param $data
-     * @return null|\SimpleXMLElement
+     * @return mixed|null
      * @throws Exception
      */
     public function getData($type, $data)
@@ -98,16 +98,13 @@ class AcmoApi
     }
 
     /**
-     * Метод отправки запроса на сервер
      * @param $requestString
-     * @return null|\SimpleXMLElement
+     * @return mixed|null
      */
     public function sendRequest($requestString)
     {
-        $result = file_get_contents($requestString);
-
-        if(!empty($result)){
-            return New \SimpleXMLElement($result);
+        if(!empty($requestString)){
+            return json_decode(json_encode(simplexml_load_file($requestString)), true);
         }
         return null;
     }
@@ -120,5 +117,4 @@ class AcmoApi
     {
         return '&user=' . self::USER_LOGIN . '&password=' . self::USER_PASSWORD;
     }
-
 }
