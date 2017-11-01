@@ -41,6 +41,8 @@ return [
             'rules' => [
                 '' => '/mainpage/default',
                 'login' => '/user/security/login',
+                'weather' => '/weather/default',
+                'weather/view' => '/weather/default/view'
             ]
         ],
         'mailer' => [
@@ -51,6 +53,9 @@ return [
     'modules' => [
         'mainpage' => [
             'class' => 'frontend\modules\mainpage\Mainpage',
+        ],
+        'weather' => [
+            'class' => 'frontend\modules\weather\Weather',
         ],
     ],
     'params' => $params,

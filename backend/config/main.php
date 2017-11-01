@@ -12,7 +12,11 @@ return [
     'language' => 'ru-RU',
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => [
+        'region' => [
+            'class' => 'backend\modules\region\Region'
+        ],
+    ],
     'components' => [
         /*'user' => [
             'identityClass' => 'common\models\User',
