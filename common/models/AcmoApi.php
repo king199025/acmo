@@ -72,7 +72,8 @@ class AcmoApi extends BaseAPI
     public function getData($type, $data)
     {
         if(in_array($type, $this->requestType)){
-            return $this->sendRequest($this->getRequest($data, $type));
+            $result = $this->sendRequest($this->getRequest($data, $type));
+            return (!empty($result)) ? $result : null;
         }
         throw new Exception('Invalid request type', 404);
     }

@@ -2,6 +2,7 @@
 /**
  * @var $this yii\web\View
  * @var array $weather
+ * @var array $popupWindow
  */
 ?>
 <div class="app">
@@ -40,8 +41,7 @@
                 <tbody>
 
                 <?php foreach ($weather['WEATHER_DATA'] as $item): ?>
-                    <?php $item['METEO_NAME'] =   \common\models\AcmoApi::parsePdkName($item['METEO_NAME']) ?>
-                    <?php \common\models\AcmoApi::check($item) ?>
+
                     <tr>
                         <td class="mr-pdk"><?php echo $item['METEO_NAME']['id'] ?></td>
                         <td class="mr-post-control">
@@ -52,7 +52,11 @@
                         <td class="mr-photo-ico"><img src="img/icons/table-photo.png" alt=""></td>
                         <td class="mr-weather-ico"><img src="img/icons/table-weather.png" alt=""></td>
                         <td class="mr-fallout-type">
-                            <?php echo \common\models\AcmoApi::$prec_type[$item['prec_type']] ?>
+                            <?php
+                            if(isset($item['prec_type'])){
+                                echo \common\models\AcmoApi::$prec_type[$item['prec_type']];
+                            }
+                            ?>
                         </td>
                         <td class="mr-fallout-sum"><?php echo $item['prec_sum'] ?></td>
                         <td class="mr-fallout-intensity"><?php echo $item['prec_intensity'] ?></td>
@@ -63,7 +67,11 @@
                         <td class="mr-wind-grd"><?php echo $item['DD'] ?></td>
                         <td class="mr-wind-ms"><?php echo $item['FF'] ?></td>
                         <td class="mr-coating-compos">
-                            <?php echo \common\models\AcmoApi::$road_state[$item['road_state']]; ?>
+                            <?php
+                            if(isset($item['road_state'])){
+                                echo \common\models\AcmoApi::$road_state[$item['road_state']];
+                            }
+                            ?>
                         </td>
                         <td class="mr-coating-c"><?php echo $item['t_road'] ?></td>
                         <td class="mr-ice"><?php echo $item['adhesion'] ?></td>
