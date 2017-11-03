@@ -2,7 +2,6 @@
 
 namespace common\models;
 
-use common\classes\Debug;
 use yii\db\Exception;
 
 /**
@@ -13,8 +12,10 @@ use yii\db\Exception;
 class AcmoApi extends BaseAPI
 {
     public $url = '';
+    public $img_path = '';
     const USER_LOGIN = 'taranishin';
     const USER_PASSWORD = 'taranishin';
+
     //Состояние поверхности
     public static $road_state = [
         1 => 'Сухо',
@@ -56,6 +57,7 @@ class AcmoApi extends BaseAPI
     public function __construct($url)
     {
         $this->url = $url;
+        $this->img_path = \Yii::getAlias('@img_api');
     }
 
     public static function get($url)
@@ -72,10 +74,34 @@ class AcmoApi extends BaseAPI
     public function getData($type, $data)
     {
         if(in_array($type, $this->requestType)){
-            $result = $this->sendRequest($this->getRequest($data, $type));
+            if($type !== 'video' && $type !== 'videobyid'){
+                $result = $this->sendRequest($this->getRequest($data, $type));
+            }else $result = $this->sendRequestVideo($this->getRequest($data, $type));
+
             return (!empty($result)) ? $result : null;
         }
         throw new Exception('Invalid request type', 404);
+    }
+
+    public function getVideoByVideoList($videoList)
+    {
+        $result = [];
+
+        if(!empty($videoList) && is_array($videoList)){
+            foreach ($videoList as $video){
+                $result[] = $this->getWebImgUrl($this->getData('videobyid', ['id' => $video['id']]));
+            }
+        }
+
+        if(!empty($result)) {
+            return $result;
+        }
+        return null;
+    }
+
+    public function getWebImgUrl($img)
+    {
+        return \Yii::getAlias('@web_img_api') . '/' . $img;
     }
 
     /**
@@ -110,6 +136,16 @@ class AcmoApi extends BaseAPI
         return null;
     }
 
+    public function sendRequestVideo($requestString)
+    {
+        $file =  uniqid() . '.jpeg';
+        $path = $this->img_path . '/' . $file;
+        copy($requestString, $path);
+        if(is_file($path)){
+            return $file;
+        }else return null;
+
+    }
     /**
      * Метод получения данных для аутентификации, вставляемых в запрос
      * @return string

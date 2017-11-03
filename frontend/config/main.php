@@ -12,6 +12,10 @@ return [
     'language' => 'ru-RU',
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+    'aliases' => [
+        '@img_api' => '@app/web/img/img_api',
+        '@web_img_api' => '/img/img_api'
+    ],
     'components' => [
         'view' => [
             'theme' => [
