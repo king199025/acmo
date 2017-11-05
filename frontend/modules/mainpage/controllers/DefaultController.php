@@ -3,6 +3,7 @@
 namespace frontend\modules\mainpage\controllers;
 
 use backend\modules\region\models\Region;
+use common\classes\Debug;
 use common\models\AcmoApi;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -36,16 +37,21 @@ class DefaultController extends Controller
     {
         $date = str_replace(' ', '%20', date('d-m-Y H:i:s', time()));
         $popupWindow = [];
-        $weather = $this->getData(1, 'meteo', ['date' => $date]);
+        $api = AcmoApi::get(1);
+        $api->getAllVideo();
+        //$api->getForecast();
 
-        foreach ((array)$weather['WEATHER_DATA'] as &$item){
-            AcmoApi::check($item);
+        foreach ($api->meteo as &$item){
             $popupWindow[] = [
                 'name' => $item['METEO_NAME'],
                 'lat' => $item['latitude'],
                 'lon' => $item['longitude'],
                 'temperature' => $item['T'],
-                'render' => $this->renderPartial('_popup_window'),
+                'render' => $this->renderPartial('_popup_window', [
+                    'meteo' => $api->meteo[$item['METEO_ID']],
+                    'forecast' => $api->getForecast($item['METEO_ID'], 4),
+                    'photo' => $api->photo[$item['METEO_ID']]
+                ]),
             ];
         }
         /*$result = [];
@@ -104,7 +110,6 @@ class DefaultController extends Controller
             ];
             break;
         }*/
-
         return $this->render('index', [
             'popupWindow' => $popupWindow
         ]);

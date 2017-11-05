@@ -29,12 +29,12 @@ class AjaxController extends DefaultController
                 return json_encode(['error' => 'Дата окончания не может быть меньше даты начала']);
         }
 
-        $weather = $this->getData(1, 'forecasta', ['date' => $date_from, 'last' => $interval]);
+        $weather = $this->getData(1, 'forecasta', ['id' => $post['id'], 'date' => $date_from, 'last' => $interval]);
 
-        if(!empty($weather['WEATHER_DATA']) && null !== $weather['WEATHER_DATA']){
-            ArrayHelper::multisort($weather['WEATHER_DATA'], function ($item) {
+        if(!empty($weather) && null !== $weather){
+            ArrayHelper::multisort($weather, function ($item) {
                 return strtotime($item['WEATHER_DATE']);
-            }, SORT_ASC);
+            }, SORT_DESC);
 
             return json_encode(['success' => $this->renderPartial('_date_interval_table', ['weather' => $weather])]);
         }

@@ -5,7 +5,7 @@
  */
 ?>
 
-<?php foreach ($weather['WEATHER_DATA'] as $item): ?>
+<?php foreach ($weather as $item): ?>
     <?php \common\models\AcmoApi::check($item) ?>
     <tr>
         <td class="ma-when"><?php echo $item['WEATHER_DATE'] ?></td>

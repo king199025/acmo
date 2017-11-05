@@ -1,9 +1,10 @@
 <?php
 /**
- * @var array $item
+ * @var $meteo array
+ * @var $photo array
+ * @var $forecast array
  */
 ?>
-
 
 <!-- start map-modal.html-->
 <div class="map__modal">
