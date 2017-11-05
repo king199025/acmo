@@ -34,7 +34,6 @@ class AcmoApi extends BaseAPI
         $this->meteo = $this->getData('meteo', ['date' => $this->date]);
         $this->meteo = ArrayHelper::index($this->meteo, 'METEO_ID');
         $this->names = $this->getPdkId($this->meteo);
-
     }
 
     public function getVideoByVideoList($pdk_id)
@@ -59,16 +58,16 @@ class AcmoApi extends BaseAPI
     }
 
     /**
-     *
+     * Получение всех изображений по всем метео точкам
+     * @return array|mixed
      */
     public function getAllVideo()
     {
         $key = 'photo_api_' . date('d-m-Y H', strtotime($this->date));
-        $cache1 = new FileCache();
 
         if ($cache = \Yii::$app->cache->get($key)) {
             $this->photo = $cache;
-            $cache1->set($key, $this->photo);
+
             return $this->photo;
         }
 
@@ -77,6 +76,7 @@ class AcmoApi extends BaseAPI
                 $this->getVideoByVideoList($id);
             }
         }
+
         \Yii::$app->cache->set($key, $this->photo, 86400);
 
         return $this->photo;

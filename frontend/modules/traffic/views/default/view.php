@@ -2,7 +2,7 @@
 /**
  * @var $this \yii\web\View
  * @var $traffic array
- * @var $images array
+ * @var $photo array
  * @var $next integer
  * @var $prev integer
  * @var $name string
@@ -29,24 +29,8 @@
     <!-- end header-section.html-->
     <div class="content">
         <div class="traffic-data__video">
-            <div class="video">
-                <?php $i = 0?>
-                <?php $buttons = ''?>
-                <?php while (isset($photo[$i])):?>
-                    <?php $i++?>
-                    <img id="img<?php echo $i?>" class="tabcontent" src="<?php echo $photo[$i - 1]?>" alt="">
-                    <?php $buttons .= '<li class="tablinks"><a href="#img'.$i.'"></a></li>'?>
-                    <?php if($i >= 7) break?>
-                <?php endwhile;?>
-                <div>
-                    <span></span>
-                    <?php echo $traffic[0]['TM_DATE']?>
-                    <ul>
-                        <?php echo $buttons?>
-                    </ul>
-                </div>
+            <?php echo \frontend\widgets\SliderWidget::widget(['photo' => $photo, 'date' => $traffic[0]['TM_DATE']])?>
 
-            </div>
             <div class="cars-type">
                 <div>
                     <p>Легковые</p>

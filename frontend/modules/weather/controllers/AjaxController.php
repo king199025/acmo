@@ -34,7 +34,7 @@ class AjaxController extends DefaultController
         if(!empty($weather) && null !== $weather){
             ArrayHelper::multisort($weather, function ($item) {
                 return strtotime($item['WEATHER_DATE']);
-            }, SORT_DESC);
+            }, SORT_ASC);
 
             return json_encode(['success' => $this->renderPartial('_date_interval_table', ['weather' => $weather])]);
         }
