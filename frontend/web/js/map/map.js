@@ -11,6 +11,11 @@ map.customGeoCoder('Чувашия', [], function (coor) {
             properties: {
                 hintContent: mapData[i].name,
                 balloonContentBody:mapData[i].render
+            },
+            options: {
+                balloonMinWidth: 900,
+                balloonMinHeight: 400
+                //balloonImageOffset: [-50, -60]
             }
         })
     }
