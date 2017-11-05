@@ -46,7 +46,12 @@ return [
                 '' => '/mainpage/default',
                 'login' => '/user/security/login',
                 'weather' => '/weather/default',
-                'weather/view' => '/weather/default/view'
+                'weather/view' => '/weather/default/view',
+                'video' => '/video/default',
+                'video/view' => '/video/default/view',
+                'traffic' => '/traffic/default',
+                'traffic/view' => '/traffic/default/view',
+                'traffic/archive' => '/traffic/default/archive',
             ]
         ],
         'mailer' => [
@@ -60,6 +65,12 @@ return [
         ],
         'weather' => [
             'class' => 'frontend\modules\weather\Weather',
+        ],
+        'video' => [
+            'class' => 'frontend\modules\video\Video',
+        ],
+        'traffic' => [
+            'class' => 'frontend\modules\traffic\Traffic',
         ],
     ],
     'params' => $params,

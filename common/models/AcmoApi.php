@@ -2,7 +2,11 @@
 
 namespace common\models;
 
-use yii\db\Exception;
+use common\classes\Debug;
+use yii\caching\FileCache;
+use yii\helpers\ArrayHelper;
+use yii\web\Session;
+
 
 /**
  * Класс для работы с API ACMO
@@ -11,147 +15,216 @@ use yii\db\Exception;
  */
 class AcmoApi extends BaseAPI
 {
-    public $url = '';
-    public $img_path = '';
-    const USER_LOGIN = 'taranishin';
-    const USER_PASSWORD = 'taranishin';
+    public $meteo = [];
+    public $names = [];
+    public $date;
+    public $videolist = [];
+    public $photo = [];
+    public $forecast = [];
+    public $traffic = [];
+    public $nextId = '';
+    public $prevId = '';
 
-    //Состояние поверхности
-    public static $road_state = [
-        1 => 'Сухо',
-        2 => 'Влажно',
-        3 => 'Мокро',
-        4 => 'Иней',
-        5 => 'Снег',
-        6 => 'Лед'
-    ];
-    //Явления погоды
-    public static $weather = [
-        1 => 'Ясно',
-        4 => 'Облачно',
-        10 => 'Дождь',
-        12 => 'Дождь со снегом',
-        13 => 'Снег',
-        20 => 'Град'
-    ];
-    //Тип осадков
-    public static $prec_type = [
-        0 => 'Нет',
-        1 => 'Дождь',
-        2 => 'Дождь со снегом',
-        3 => 'Снег',
-        4 => 'Град'
-    ];
-    //Допустимые типы запросов
-    public $requestType = [
-        'meteo',
-        'video',
-        'videolist',
-        'videobyid',
-        'forecast',
-        'forecasta',
-        'tm',
-        'event'
-    ];
 
     public function __construct($url)
     {
-        $this->url = $url;
-        $this->img_path = \Yii::getAlias('@img_api');
+        parent::__construct($url);
+
+        $this->date = date(self::DATE_FORMAT, time());
+        $this->meteo = $this->getData('meteo', ['date' => $this->date]);
+        $this->meteo = ArrayHelper::index($this->meteo, 'METEO_ID');
+        $this->names = $this->getPdkId($this->meteo);
     }
 
-    public static function get($url)
+    public function getVideoByVideoList($pdk_id)
     {
-        return new self($url);
-    }
-
-    /**
-     * @param $type
-     * @param $data
-     * @return mixed|null
-     * @throws Exception
-     */
-    public function getData($type, $data)
-    {
-        if(in_array($type, $this->requestType)){
-            if($type !== 'video' && $type !== 'videobyid'){
-                $result = $this->sendRequest($this->getRequest($data, $type));
-            }else $result = $this->sendRequestVideo($this->getRequest($data, $type));
-
-            return (!empty($result)) ? $result : null;
+        if (empty($this->videolist)) {
+            $this->videolist = $this->getVideoList();
         }
-        throw new Exception('Invalid request type', 404);
-    }
 
-    public function getVideoByVideoList($videoList)
-    {
-        $result = [];
+        if (!empty($this->videolist[$pdk_id]) && is_array($this->videolist[$pdk_id])) {
 
-        if(!empty($videoList) && is_array($videoList)){
-            foreach ($videoList as $video){
-                $result[] = $this->getWebImgUrl($this->getData('videobyid', ['id' => $video['id']]));
+            foreach ($this->videolist[$pdk_id] as $video) {
+                $this->photo[$pdk_id][] = $this->getData('videobyid', [
+                    'id' => (isset($video['id'])) ? $video['id'] : 0
+                ]);
             }
         }
 
-        if(!empty($result)) {
+        if (!empty($result)) {
             return $result;
         }
         return null;
     }
 
-    public function getWebImgUrl($img)
-    {
-        return \Yii::getAlias('@web_img_api') . '/' . $img;
-    }
-
     /**
-     * Метод построения строки запроса на основании полученного массива данных
-     * @param $data
-     * @param $type
-     * @return bool|string
+     * Получение всех изображений по всем метео точкам
+     * @return array|mixed
      */
-    public function getRequest($data, $type)
+    public function getAllVideo()
     {
-        $request = '?type=' . strtolower(str_replace('get', '', $type));
+        $key = 'photo_api_' . date('d-m-Y H', strtotime($this->date));
 
-        if (is_array($data) && !empty($data)) {
-            foreach ($data as $key => $value) {
-                $request .= '&' . $key . '=' . $value;
-            }
-            return $this->url . $request . $this->getDataToAutentificate();
+        if ($cache = \Yii::$app->cache->get($key)) {
+            $this->photo = $cache;
+
+            return $this->photo;
         }
 
-        return false;
+        if (!empty($this->names)) {
+            foreach (array_keys($this->names) as $id) {
+                $this->getVideoByVideoList($id);
+            }
+        }
+
+        \Yii::$app->cache->set($key, $this->photo, 86400);
+
+        return $this->photo;
     }
 
-    /**
-     * @param $requestString
-     * @return mixed|null
-     */
-    public function sendRequest($requestString)
+    public function getVideoList($date = null)
     {
-        if(!empty($requestString)){
-            return json_decode(json_encode(simplexml_load_file($requestString)), true);
+        if ($date === null) {
+            $date = $this->date;
+        }
+
+        $ids = array_keys($this->meteo);
+
+        foreach ($ids as $id) {
+            $this->videolist[$id] = $this->getData('videolist', ['id' => $id, 'date' => $date]);
+        }
+
+
+        if (!empty($this->videolist)) {
+            return $this->videolist;
         }
         return null;
     }
 
-    public function sendRequestVideo($requestString)
+    public function getTrafficById($id, $date = null)
     {
-        $file =  uniqid() . '.jpeg';
-        $path = $this->img_path . '/' . $file;
-        copy($requestString, $path);
-        if(is_file($path)){
-            return $file;
-        }else return null;
+        if ($date === null) {
+            $date = $this->date;
+        }
 
+        $this->traffic = $this->getData('tm', ['date' => $date, 'id' => $id]);
     }
-    /**
-     * Метод получения данных для аутентификации, вставляемых в запрос
-     * @return string
-     */
-    public function getDataToAutentificate()
+
+    public function getTrafficArchive($id, $date = null)
     {
-        return '&user=' . self::USER_LOGIN . '&password=' . self::USER_PASSWORD;
+        if ($date === null) {
+            $date = $this->date;
+        }
+        $startDate = $date;
+
+        $i = 0;
+        while ($traffic = $this->getData('tm', ['date' => $startDate, 'id' => $id])) {
+            $i++;
+            $this->traffic[] = $traffic;
+            $startDate = date(self::DATE_FORMAT, strtotime($date) - 86400 * $i);
+
+            if ($i > 8) break;
+        }
+
+        $this->checkTraffic($this->traffic);
+    }
+
+    public function getAllTraffic()
+    {
+        $pdk_id = array_keys($this->names);
+
+        foreach ($pdk_id as $id) {
+            $this->traffic[$id] = $this->getData('tm', ['date' => $this->date, 'id' => $id]);
+        }
+
+        $this->checkTraffic($this->traffic);
+    }
+
+    public function getPdkId(array $meteo)
+    {
+        if (!empty($meteo)) {
+            return ArrayHelper::map($meteo, 'METEO_ID', 'METEO_NAME');
+        }
+    }
+
+    public static function getTrucksCount($traffic)
+    {
+        return $traffic['Struck'] + $traffic['Mtruck'] + $traffic['Ltruck'] + $traffic['Btruck'];
+    }
+
+    public function checkTraffic($traffic)
+    {
+        $this->traffic = array_filter($traffic, function ($item) {
+            if (is_array($item[0])) {
+                return true;
+            }
+            return false;
+        });
+    }
+
+    public function getNextId($id)
+    {
+        $ids = array_keys($this->names);
+        $key = array_search($id, $ids);
+
+        if ($key !== count($ids) - 1) {
+            $this->nextId = $ids[$key + 1];
+        } else $this->nextId = $ids[0];
+    }
+
+    public function getPrevId($id)
+    {
+        $ids = array_keys($this->names);
+        $key = array_search($id, $ids);
+
+        if ($key !== 0) {
+            $this->prevId = $ids[$key - 1];
+        } else $this->prevId = $ids[count($ids) - 1];
+    }
+
+    /**
+     * @param $id
+     */
+    public function getNextPrevIds($id)
+    {
+        $this->getNextId($id);
+        $this->getPrevId($id);
+    }
+
+    public function getForecast($id, $interval = 1, $count = 4, $date = null)
+    {
+        if ($date === null) {
+            $date = $this->date;
+        }
+
+        $result = $this->getData('forecasta', ['id' => $id, 'date' => $date]);
+
+        if ($interval === 1) {
+            return $result;
+        } else {
+            return $result = $this->forecastInterval($result, $interval, $count);
+        }
+    }
+
+    public function forecastInterval($forecast, $interval, $count = null)
+    {
+        $result[] = $forecast[0];
+        $time = $interval * 3600;
+        $firstTime = strtotime($forecast[0]['WEATHER_DATE']);
+
+        foreach ($forecast as $key => $item) {
+            $forecastTime = strtotime($item['WEATHER_DATE']);
+
+            if ($firstTime + $time === $forecastTime) {
+                $firstTime = strtotime($item['WEATHER_DATE']);
+                $result[] = $item;
+            }
+
+            if (count($result) >= $count) {
+                break;
+            }
+        }
+
+        return $result;
     }
 }

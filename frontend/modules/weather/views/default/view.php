@@ -1,8 +1,9 @@
 <?php
 /**
  * @var $this \yii\web\View
- * @var string $render
- * @var string $name
+ * @var $render string
+ * @var $name string
+ * @var $id integer
  */
 ?>
 
@@ -26,7 +27,7 @@
         <div class="filter">
             <span>Период с: </span><input class="date-from" type="date"><span>по: </span><input class="date-to" type="date">
         </div>
-
+        <input type="hidden" id="meteo_id" value="<?php echo $id?>">
         <table>
             <thead>
             <tr>

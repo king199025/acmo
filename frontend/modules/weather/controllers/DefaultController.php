@@ -19,21 +19,10 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         $popupWindow = [];
-        $weather = $this->getData(1, 'meteo', ['date' => date('d-m-Y', time())]);
-
-        foreach ($weather['WEATHER_DATA'] as &$item){
-            AcmoApi::check($item);
-            $item['METEO_NAME'] = AcmoApi::parsePdkName($item['METEO_NAME']);
-            $popupWindow[] = [
-                'name' => implode($item['METEO_NAME'], ' '),
-                'lat' => $item['latitude'],
-                'lon' => $item['longitude'],
-                'render' => $this->renderPartial('_popup_window', ['item' => $item]),
-            ];
-        }
+        $api = AcmoApi::get(1);
 
         return $this->render('index', [
-            'weather' => $weather,
+            'weather' => $api->meteo,
             'popupWindow' => $popupWindow
         ]);
     }
@@ -42,12 +31,17 @@ class DefaultController extends Controller
     {
         $weather = $this->getData(1,'forecasta', ['date' => date('d-m-Y', time()), 'id' => $id]);
 
-        if(!empty($weather['WEATHER_DATA'])){
+        if(!empty($weather)){
             $render = $this->renderPartial('/ajax/_date_interval_table', ['weather' => $weather]);
 
-            return $this->render('view', ['render' => $render, 'name' => $weather['WEATHER_DATA'][0]['METEO_NAME']]);
+            return $this->render('view', [
+                'render' => $render,
+                'name' => $weather[0]['METEO_NAME'],
+                'id' => $id
+                ]);
         }
-        return $this->render('view', ['render' => '<h1>Ничего не найдено</h1>']);
+
+        return $this->render('view', ['render' => '<h1>Ничего не найдено</h1>', 'id' => $id]);
 
     }
 

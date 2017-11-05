@@ -40,8 +40,8 @@
                 </thead>
                 <tbody>
 
-                <?php foreach ($weather['WEATHER_DATA'] as $item): ?>
-
+                <?php foreach ($weather as $item): ?>
+                        <?php $item['METEO_NAME'] = \common\models\AcmoApi::parsePdkName($item['METEO_NAME'])?>
                     <tr>
                         <td class="mr-pdk"><?php echo $item['METEO_NAME']['id'] ?></td>
                         <td class="mr-post-control">

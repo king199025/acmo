@@ -11,6 +11,10 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'console\controllers',
+    'aliases' => [
+        '@img_api' => '@frontend/web/img/img_api',
+        '@web_img_api' => '/img/img_api'
+    ],
     'components' => [
         'log' => [
             'targets' => [
