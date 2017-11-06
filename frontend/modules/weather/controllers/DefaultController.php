@@ -29,14 +29,14 @@ class DefaultController extends Controller
 
     public function actionView($id)
     {
-        $weather = $this->getData(1,'forecasta', ['date' => date('d-m-Y', time()), 'id' => $id]);
+        $api = AcmoApi::get(1)->getCacheData();
 
-        if(!empty($weather)){
-            $render = $this->renderPartial('/ajax/_date_interval_table', ['weather' => $weather]);
+        if(!empty($api->forecast[$id])){
+            $render = $this->renderPartial('/ajax/_date_interval_table', ['weather' => $api->forecast[$id]]);
 
             return $this->render('view', [
                 'render' => $render,
-                'name' => $weather[0]['METEO_NAME'],
+                'name' => $api->names[$id],
                 'id' => $id
                 ]);
         }

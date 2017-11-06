@@ -27,4 +27,13 @@ class ApiController extends Controller
             $this->stdout("Caching photo successful\n", Console::FG_GREEN);
         }else $this->stdout("An error occurred during caching!!!\n", Console::FG_RED);
     }
+
+    public function actionCacheData()
+    {
+        $api = ConsoleApi::get(1)->setCacheData();
+
+        if($api) {
+            $this->stdout("Caching data successful\n", Console::FG_GREEN);
+        }
+    }
 }

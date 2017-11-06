@@ -16,15 +16,13 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        $api = AcmoApi::get(1);
-        $api->getAllVideo();
+        $api = AcmoApi::get(1)->getCacheData();
 
         return $this->render('index', ['photos' => $api->photo, 'meteo' => $api->meteo]);
     }
 
     public function actionView($id){
-        $api = AcmoApi::get(1);
-        $api->getAllVideo();
+        $api = AcmoApi::get(1)->getCacheData();
         $api->getNextPrevIds($id);
 
         return $this->render('view', [

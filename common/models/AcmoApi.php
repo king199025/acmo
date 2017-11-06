@@ -5,13 +5,13 @@ namespace common\models;
 use common\classes\Debug;
 use yii\caching\FileCache;
 use yii\helpers\ArrayHelper;
+use yii\httpclient\Exception;
 use yii\web\Session;
 
 
 /**
- * Класс для работы с API ACMO
  * Class AcmoApi
- * @package backend\models
+ * @package common\models
  */
 class AcmoApi extends BaseAPI
 {
@@ -31,11 +31,56 @@ class AcmoApi extends BaseAPI
         parent::__construct($url);
 
         $this->date = date(self::DATE_FORMAT, time());
+
         $this->meteo = $this->getData('meteo', ['date' => $this->date]);
         $this->meteo = ArrayHelper::index($this->meteo, 'METEO_ID');
         $this->names = $this->getPdkId($this->meteo);
     }
 
+    /**
+     * получение данных из кэша
+     * @return mixed
+     * @throws Exception
+     */
+    public function getCacheData()
+    {
+        $key = 'api_object_' . date('d-m-Y H', strtotime($this->date));
+
+        if($cache = \Yii::$app->cache->get($key)){
+            return $cache;
+        }else {
+            if($this->setCacheData($key)){
+                $this->getCacheData();
+            }else throw new Exception('Caching Error', 404);
+        }
+    }
+
+    /**
+     * Запись данных в кэш
+     * @param null $key
+     * @return bool
+     */
+    public function setCacheData($key = null){
+        if($key === null) {
+            $key = 'api_object_' . date('d-m-Y H', strtotime($this->date));
+        }
+
+        $this->getAllVideo();
+        $this->setAllTraffic();
+        $this->getAllForecast();
+
+        \Yii::$app->cache->set($key, $this, 86400);
+
+        if(\Yii::$app->cache->get($key)) {
+            return true;
+        }else return false;
+    }
+
+    /**
+     * Метод получает список доступных фото данной ПДК
+     * @param $pdk_id
+     * @return null|$result
+     */
     public function getVideoByVideoList($pdk_id)
     {
         if (empty($this->videolist)) {
@@ -82,6 +127,10 @@ class AcmoApi extends BaseAPI
         return $this->photo;
     }
 
+    /**
+     * @param null $date
+     * @return array|null
+     */
     public function getVideoList($date = null)
     {
         if ($date === null) {
@@ -101,6 +150,11 @@ class AcmoApi extends BaseAPI
         return null;
     }
 
+    /**
+     * Получение траффика по id
+     * @param $id
+     * @param null $date
+     */
     public function getTrafficById($id, $date = null)
     {
         if ($date === null) {
@@ -110,6 +164,11 @@ class AcmoApi extends BaseAPI
         $this->traffic = $this->getData('tm', ['date' => $date, 'id' => $id]);
     }
 
+    /**
+     * Получение архива траффика по id
+     * @param $id
+     * @param null $date
+     */
     public function getTrafficArchive($id, $date = null)
     {
         if ($date === null) {
@@ -129,7 +188,10 @@ class AcmoApi extends BaseAPI
         $this->checkTraffic($this->traffic);
     }
 
-    public function getAllTraffic()
+    /**
+     * Установка всего трафика в свойство traffic
+     */
+    public function setAllTraffic()
     {
         $pdk_id = array_keys($this->names);
 
@@ -149,7 +211,9 @@ class AcmoApi extends BaseAPI
 
     public static function getTrucksCount($traffic)
     {
-        return $traffic['Struck'] + $traffic['Mtruck'] + $traffic['Ltruck'] + $traffic['Btruck'];
+        if(isset($traffic['Struck'], $traffic['Mtruck'], $traffic['Ltruck'], $traffic['Btruck'])){
+            return $traffic['Struck'] + $traffic['Mtruck'] + $traffic['Ltruck'] + $traffic['Btruck'];
+        }else return 0;
     }
 
     public function checkTraffic($traffic)
@@ -179,7 +243,9 @@ class AcmoApi extends BaseAPI
 
         if ($key !== 0) {
             $this->prevId = $ids[$key - 1];
-        } else $this->prevId = $ids[count($ids) - 1];
+        } elseif($key !== false) {
+            $this->prevId = $ids[count($ids) - 1];
+        } else throw new Exception('Invalid parameter id', 500);
     }
 
     /**
@@ -191,18 +257,29 @@ class AcmoApi extends BaseAPI
         $this->getPrevId($id);
     }
 
-    public function getForecast($id, $interval = 1, $count = 4, $date = null)
+    public function getForecastInterval($id, $interval = 1, $count = 4)
+    {
+        if(!empty($this->forecast[$id])){
+            if ($interval === 1) {
+                return $this->forecast[$id];
+            } else {
+                return $result = $this->forecastInterval($this->forecast[$id], $interval, $count);
+            }
+        }
+
+
+    }
+
+    public function getAllForecast($date = null)
     {
         if ($date === null) {
             $date = $this->date;
         }
 
-        $result = $this->getData('forecasta', ['id' => $id, 'date' => $date]);
+        $forecasts = $this->getData('forecasta', ['date' => $date]);
 
-        if ($interval === 1) {
-            return $result;
-        } else {
-            return $result = $this->forecastInterval($result, $interval, $count);
+        foreach ($forecasts as $forecast) {
+            $this->forecast[$forecast['METEO_ID']][] = $forecast;
         }
     }
 

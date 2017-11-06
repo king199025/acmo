@@ -9,6 +9,7 @@
 namespace console\models;
 
 
+use common\classes\Debug;
 use common\models\AcmoApi;
 
 class ConsoleApi extends AcmoApi
@@ -22,6 +23,8 @@ class ConsoleApi extends AcmoApi
     {
         $key = 'photo_api_' . date('d-m-Y H', strtotime($this->date));
 
+        $this->clearDir();
+
         if (!empty($this->names)) {
             foreach (array_keys($this->names) as $id) {
                 $this->getVideoByVideoList($id);
@@ -33,5 +36,20 @@ class ConsoleApi extends AcmoApi
         if ($cache = \Yii::$app->cache->get($key)){
             return true;
         }else return false;
+    }
+
+    /**
+     * Метод очистки директории времменных фото
+     */
+    public function clearDir() {
+        if(is_dir($this->img_path)) {
+           $files = scandir($this->img_path);
+
+           foreach ($files as $file){
+               if($file !== '.' && $file !== '..'){
+                   unlink($this->img_path . '/' . $file);
+               }
+           }
+        }
     }
 }
