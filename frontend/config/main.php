@@ -72,6 +72,9 @@ return [
         'traffic' => [
             'class' => 'frontend\modules\traffic\Traffic',
         ],
+        'chart' => [
+            'class' => 'frontend\modules\chart\Chart',
+        ],
     ],
     'params' => $params,
 ];

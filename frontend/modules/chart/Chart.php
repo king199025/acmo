@@ -1,18 +1,18 @@
 <?php
 
-namespace frontend\modules\traffic;
+namespace frontend\modules\chart;
 
 use yii\filters\AccessControl;
 
 /**
- * traffic module definition class
+ * chart module definition class
  */
-class Traffic extends \yii\base\Module
+class Chart extends \yii\base\Module
 {
     /**
      * @inheritdoc
      */
-    public $controllerNamespace = 'frontend\modules\traffic\controllers';
+    public $controllerNamespace = 'frontend\modules\chart\controllers';
 
     public function behaviors()
     {

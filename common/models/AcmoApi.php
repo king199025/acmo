@@ -216,6 +216,20 @@ class AcmoApi extends BaseAPI
         }else return 0;
     }
 
+    public function getTrafficByDay($id, $date = null)
+    {
+        if($date === null) {
+            $date = date('d-m-Y 00:00:00', strtotime($this->date));
+        }else $date = date('d-m-Y 00:00:00', strtotime($date));
+
+        while (strtotime($date) < time()) {
+            $this->traffic[] = $this->getData('tm', ['id' => $id, 'date' => $date]);
+            $date = date('d-m-Y H:i:s', strtotime($date) + 3600);
+            //break;
+        }
+
+    }
+
     public function checkTraffic($traffic)
     {
         $this->traffic = array_filter($traffic, function ($item) {
@@ -276,7 +290,7 @@ class AcmoApi extends BaseAPI
             $date = $this->date;
         }
 
-        $forecasts = $this->getData('forecasta', ['date' => $date]);
+        $forecasts = $this->getData('forecasta', ['date' => date('d-m-Y 00:00:00', strtotime($date) - 86400)]);
 
         foreach ($forecasts as $forecast) {
             $this->forecast[$forecast['METEO_ID']][] = $forecast;
