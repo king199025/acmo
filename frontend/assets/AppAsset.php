@@ -21,6 +21,7 @@ class AppAsset extends AssetBundle
         'https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css',
         'css/libs.min.css',
         'css/styles.min.css',
+        'css/map.css',
         //'css/site.min.css',
     ];
     public $js = [
