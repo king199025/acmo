@@ -36,9 +36,7 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         $popupWindow = [];
-        $api = AcmoApi::get(1);
-        $api->getAllVideo();
-        $api->getAllTraffic();
+        $api = AcmoApi::get(1)->getCacheData();
 
         foreach ($api->meteo as &$item){
             $popupWindow[] = [
@@ -48,7 +46,7 @@ class DefaultController extends Controller
                 'temperature' => $item['T'],
                 'render' => $this->renderPartial('_popup_window', [
                     'meteo' => $api->meteo[$item['METEO_ID']],
-                    'forecast' => $api->getForecast($item['METEO_ID'], 4),
+                    'forecast' => $api->getForecastInterval($item['METEO_ID'], 4),
                     'photo' => $api->photo[$item['METEO_ID']],
                     'traffic' => $api->traffic[$item['METEO_ID']],
                 ]),
