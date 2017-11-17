@@ -56,6 +56,9 @@ function ACMap() {
             placeMark.options.iconLayout = ymaps.templateLayoutFactory.createClass(placeMark.iconLayout)
         }
         var pm = new ymaps.Placemark(placeMark.coordinates, placeMark.properties, placeMark.options);
+        if(typeof placeMark.click === 'function'){
+            pm.events.add('click', placeMark.click);
+        }
         this.map.geoObjects.add(pm);
     };
 

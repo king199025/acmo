@@ -2,7 +2,6 @@
  * Created by apuc0 on 02.11.2017.
  */
 var map = new ACMap();
-console.log(mapData);
 map.customGeoCoder('Чувашия', [], function (coor) {
     var pm = [];
     for (var i=0;i<mapData.length;i++){
@@ -23,7 +22,31 @@ map.customGeoCoder('Чувашия', [], function (coor) {
                     radius: 25
                 }
             },
-            iconLayout: '<div class="placeMarkLayoutContainer"><div class="iconLayoutСircle">'+mapData[i].temperature+'°C</div></div>'
+            iconLayout: '<div class="placeMarkLayoutContainer"><div class="iconLayoutСircle">'+mapData[i].temperature+'°C</div></div>',
+            click: function (e) {
+                var timerId = setInterval(function() {
+                    if(e.originalEvent.map.balloon.isOpen()){
+                        (function ($) {
+                            $('.tabcontent').each(function (i) {
+                                if (i != 0) {
+                                    $(this).hide(0)
+                                }
+                            });
+
+                            $(document).on('click', '.tablinks a', function (e) {
+                                e.preventDefault();
+                                var itemId = $(this).attr('href');
+                                var activeTab = $(itemId);
+                                $('.tabcontent').hide();
+                                activeTab.show();
+                                $('.tablinks a').removeClass('active');
+                                $(this).addClass('active');
+                            });
+                        })(jQuery);
+                        clearInterval(timerId);
+                    }
+                }, 50);
+            }
         })
     }
     map.init({
@@ -34,5 +57,4 @@ map.customGeoCoder('Чувашия', [], function (coor) {
         controls: ['default', 'routeButtonControl'],
         placeMarks: pm
     });
-    console.log(coor);
 });
