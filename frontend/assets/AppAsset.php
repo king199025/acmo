@@ -32,8 +32,8 @@ class AppAsset extends AssetBundle
         'js/map/ACMap.js',
         'js/map/map.js',
     ];
-    public $depends = [
+    /*public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
-    ];
+    ];*/
 }
