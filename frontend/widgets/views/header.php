@@ -13,10 +13,13 @@ use yii\helpers\Url;
         <?php
 
         if (Yii::$app->user->isGuest): ?>
-            <a href="<?= Url::toRoute('/login') ?>"><img src="/img/icons/exit.png" alt="exit"><span>Войти</span></a>
+            <a href="<?= Url::toRoute('/login') ?>" class="header__btn">
+                <img src="/img/icons/exit.png" alt="exit">
+                <span>Войти</span>
+            </a>
         <?php else: ?>
             <button><img src="/img/icons/settings.png" alt="settings"></button>
-            <a data-method="post" href="<?= Url::to(['/user/security/logout']) ?>">
+            <a data-method="post" href="<?= Url::to(['/user/security/logout']) ?>" class="header__btn" >
                 <img src="/img/icons/exit.png" alt="exit">
                 <span>Выйти</span>
             </a>
