@@ -52,6 +52,8 @@ return [
                 'traffic' => '/traffic/default',
                 'traffic/view' => '/traffic/default/view',
                 'traffic/archive' => '/traffic/default/archive',
+                'chart/meteo' => '/chart/default/meteo',
+                'chart/traffic' => '/chart/default/traffic'
             ]
         ],
         'mailer' => [
