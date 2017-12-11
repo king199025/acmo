@@ -17,6 +17,7 @@
             <span><?php echo $name ?></span>
         </div>
         <div class="s-header__side">
+            <a href="<?php echo \yii\helpers\Url::to(['/chart/meteo', 'id' => $id])?>" class="btn margin-right-10"><img src="/img/icons/pie_chart.png" alt=""></a>
             <button class="btn">Архив</button>
             <button class="btn">Текущие</button>
             <button class="btn">Прогноз</button>

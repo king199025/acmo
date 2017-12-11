@@ -47,7 +47,7 @@
                 <?php $i++?>
                     <tr>
                         <td class="tt-day"><?php echo $i?></td>
-                        <td class="tt-clock"><img src="/img/icons/chart-icon.png" alt=""></td>
+                        <td class="tt-clock"><a href="<?php echo \yii\helpers\Url::to(['/chart/traffic', 'id' => $traffics[0][0]['TM_ID']])?>"><img src="/img/icons/chart-icon.png" alt=""></a></td>
                         <td class="tt-car"><?php echo $traffic[0]['Car'] + $traffic[1]['Car']?></td>
                         <td class="tt-bus"><?php echo $traffic[0]['Bus'] + $traffic[1]['Bus']?></td>
                         <td class="tt-truck-type-sm"><?php echo $traffic[0]['Struck'] + $traffic[1]['Struck']?></td>
