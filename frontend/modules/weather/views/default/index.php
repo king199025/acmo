@@ -45,7 +45,7 @@
                     <tr>
                         <td class="mr-pdk"><?php echo $item['METEO_NAME']['id'] ?></td>
                         <td class="mr-post-control">
-                            <a href="<?php echo \yii\helpers\Url::to(['/weather/view', 'id' => $item['METEO_ID']])?>"><span class="city"><?php echo $item['METEO_NAME']['name'] ?></span></a>
+                            <a href="<?php echo \yii\helpers\Url::to(['/weather/forecast', 'id' => $item['METEO_ID']])?>"><span class="city"><?php echo $item['METEO_NAME']['name'] ?></span></a>
                             <span class="direction"><?php echo $item['METEO_NAME']['distance'] ?></span>
                         </td>
                         <td class="mr-time"><?php echo $item['WEATHER_UDATE'] ?></td>

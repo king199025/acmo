@@ -31,7 +31,11 @@ class AcmoApi extends BaseAPI
         parent::__construct($url);
 
         $this->date = date(self::DATE_FORMAT, time());
+        $this->_init();
+    }
 
+    protected function _init()
+    {
         $this->meteo = $this->getData('meteo', ['date' => $this->date]);
         $this->meteo = ArrayHelper::index($this->meteo, 'METEO_ID');
         $this->names = $this->getPdkId($this->meteo);

@@ -22,7 +22,7 @@
         <td class="ma-pressure"><?php echo $item['PO'] ?></td>
         <td class="ma-wind-ms"><?php echo $item['FF'] ?></td>
         <td class="ma-wind-grd"><?php echo $item['DD'] ?></td>
-        <td class="ma-coating-temp"><?php echo $item['T_ROAD'] ?></td>
+        <td class="ma-coating-temp"><?php echo $item['t_road'] ?></td>
         <td class="ma-coating-compos"><?php echo \common\models\AcmoApi::$road_state[$item['road_state']] ?></td>
         <td class="ma-coating-clutch"></td>
         <td class="ma-road-body-temp-min"></td>
