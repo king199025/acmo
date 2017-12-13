@@ -15,11 +15,12 @@
 <section class="traffic-data">
     <!-- start header-section.html-->
     <div class="s-header">
-        <div class="s-header__side">
-            <a href="<?php echo \yii\helpers\Url::to(['/traffic/view', 'id' => $prev])?>" class="btn btn-left"></a>
-            <a href="<?php echo \yii\helpers\Url::to(['/traffic/view', 'id' => $next])?>" class="btn btn-right"></a>
-            <span><?php echo $name?></span>
-        </div>
+    <?php echo \frontend\widgets\PrevNextWidget::widget([
+            'url' => '/traffic/view',
+            'name' => $name,
+            'prev' => $prev,
+            'next' => $next
+        ]) ?>
 <?php if(is_array($traffic[0])):?>
         <div class="s-header__side">
             <a href="<?php echo \yii\helpers\Url::to(['/traffic/archive', 'id' => $traffic[0]['TM_ID']])?>" class="btn">Архив</a>
@@ -50,17 +51,18 @@
 
             </div>
         </div>
+
         <div class="traffic-data__statistics">
             <div class="traffic-data--block">
                 <div>
-                    <h3 class="bg-green"><?php echo ($traffic[0]['Occ']) ? $traffic[0]['Occ'] : 0?></h3>
+                    <h3 class="bg-<?php echo $traffic[0]['analise']?>"><?php echo ($traffic[0]['Occ']) ? $traffic[0]['Occ'] : 0?></h3>
                     <p>Средняя скорость движения, км./час<b><?php echo ($traffic[0]['S']) ? $traffic[0]['S'] : 0?></b></p>
-                    <p>Объем движения, авт./сутки<b>204</b></p>
+                    <p>Объем движения, авт./сутки<b><?php echo ($traffic[0]['AllT']) ? $traffic[0]['AllT'] : 0?></b></p>
                 </div>
                 <div>
-                    <h3 class="bg-yellow"><?php echo ($traffic[1]['Occ']) ? $traffic[1]['Occ'] : 0?></h3>
+                    <h3 class="bg-<?php echo $traffic[1]['analise']?>"><?php echo ($traffic[1]['Occ']) ? $traffic[1]['Occ'] : 0?></h3>
                     <p>Средняя скорость движения, км./час<b><?php echo ($traffic[1]['S']) ? $traffic[1]['S'] : 0?></b></p>
-                    <p>Объем движения, авт./сутки<b>106</b></p>
+                    <p>Объем движения, авт./сутки<b><?php echo ($traffic[1]['AllT']) ? $traffic[1]['AllT'] : 0?></b></p>
                 </div>
             </div>
             <ul class="traffic-data--review">
@@ -71,8 +73,9 @@
             </ul>
         </div>
     </div>
+    <?php else :?>
+        <h1>Ничего не найдено</h1>
+    <?php endif;?>
+
 </section>
 <!-- end traffic-data.html-->
-<?php else :?>
-<h1>Ничего не найдено</h1>
-<?php endif;?>

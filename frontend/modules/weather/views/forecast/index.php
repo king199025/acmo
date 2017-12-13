@@ -11,11 +11,12 @@
 <section class="meteo meteo-archive">
     <!-- start header-section.html-->
     <div class="s-header">
-        <div class="s-header__side">
-            <button class="btn btn-left"></button>
-            <button class="btn btn-right"></button>
-            <span><?php echo $name ?></span>
-        </div>
+        <?php echo \frontend\widgets\PrevNextWidget::widget([
+            'url' => '/weather/forecast',
+            'name' => $name,
+            'prev' => $prev,
+            'next' => $next
+        ]) ?>
         <div class="s-header__side">
             <a href="<?php echo \yii\helpers\Url::to(['/chart/meteo', 'id' => $id])?>" class="btn margin-right-10"><img src="/img/icons/pie_chart.png" alt=""></a>
             <a href="<?php echo \yii\helpers\Url::to(['/weather/forecast', 'id' => $id, 'date' => date('d-m-Y 00:00', time() - 86400)])?>" class="btn">Архив</a>

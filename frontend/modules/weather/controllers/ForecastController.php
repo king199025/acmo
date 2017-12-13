@@ -17,12 +17,15 @@ class ForecastController extends Controller
 {
     public function actionIndex($id, $date = null)
     {
-        $forecast = Forecast::get(1)->getForecast($id, $date);
+        $api = Forecast::get(1);
+        $forecast = $api->getForecast($id, $date);
 
         return $this->render('index', [
             'render' => $this->_getRender($forecast),
             'id' => $id,
-            'name' => $forecast[0]['METEO_NAME']
+            'name' => $forecast[0]['METEO_NAME'],
+            'prev' => $api->getPrevId($id),
+            'next' => $api->getNextId($id)
         ]);
     }
 

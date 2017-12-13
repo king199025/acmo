@@ -10,15 +10,16 @@ use yii\helpers\ArrayHelper;
 <section class="meteo-chart">
     <!-- start header-section.html-->
     <div class="s-header">
+        <?php echo \frontend\widgets\PrevNextWidget::widget([
+            'url' => '/chart/meteo',
+            'name' => $name,
+            'prev' => $prev,
+            'next' => $next
+        ]) ?>
         <div class="s-header__side">
-            <button class="btn btn-left"></button>
-            <button class="btn btn-right"></button>
-            <span><?php echo $name?></span>
-        </div>
-        <div class="s-header__side">
-            <button class="btn">Архив</button>
+            <!--<button class="btn">Архив</button>
             <button class="btn">Текущие</button>
-            <button class="btn">Прогноз</button>
+            <button class="btn">Прогноз</button>-->
         </div>
     </div>
     <!-- end header-section.html-->

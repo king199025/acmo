@@ -29,13 +29,12 @@ class AcmoApi extends BaseAPI
     public function __construct($url)
     {
         parent::__construct($url);
-
-        $this->date = date(self::DATE_FORMAT, time());
         $this->_init();
     }
 
     protected function _init()
     {
+        $this->date = date(self::DATE_FORMAT, time());
         $this->meteo = $this->getData('meteo', ['date' => $this->date]);
         $this->meteo = ArrayHelper::index($this->meteo, 'METEO_ID');
         $this->names = $this->getPdkId($this->meteo);
@@ -252,6 +251,7 @@ class AcmoApi extends BaseAPI
         if ($key !== count($ids) - 1) {
             $this->nextId = $ids[$key + 1];
         } else $this->nextId = $ids[0];
+        return $this->nextId;
     }
 
     public function getPrevId($id)
@@ -264,6 +264,7 @@ class AcmoApi extends BaseAPI
         } elseif($key !== false) {
             $this->prevId = $ids[count($ids) - 1];
         } else throw new Exception('Invalid parameter id', 500);
+        return $this->prevId;
     }
 
     /**

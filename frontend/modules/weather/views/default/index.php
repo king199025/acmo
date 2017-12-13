@@ -49,8 +49,16 @@
                             <span class="direction"><?php echo $item['METEO_NAME']['distance'] ?></span>
                         </td>
                         <td class="mr-time"><?php echo $item['WEATHER_UDATE'] ?></td>
-                        <td class="mr-photo-ico"><img src="img/icons/table-photo.png" alt=""></td>
-                        <td class="mr-weather-ico"><img src="img/icons/table-weather.png" alt=""></td>
+                        <td class="mr-photo-ico">
+                            <a href="<?php echo \yii\helpers\Url::to(['/video/view', 'id' => $item['METEO_ID']])?>" class="">
+                                <img src="img/icons/table-photo.png" alt="">
+                            </a>
+                        </td>
+                        <td class="mr-weather-ico"><img src="
+                        <?php
+                            echo 'img/icons/' . \common\models\AcmoApi::$weather[$item['weather']]['img'];
+                            ?>" alt="">
+                        </td>
                         <td class="mr-fallout-type">
                             <?php
                             if(isset($item['prec_type'])){

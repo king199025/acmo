@@ -11,11 +11,12 @@ use yii\helpers\ArrayHelper;
 <section class="traffic-chart">
     <!-- start header-section.html-->
     <div class="s-header">
-        <div class="s-header__side">
-            <button class="btn btn-left"></button>
-            <button class="btn btn-right"></button>
-            <span><?php echo $name?></span>
-        </div>
+        <?php echo \frontend\widgets\PrevNextWidget::widget([
+            'url' => '/chart/traffic',
+            'name' => $name,
+            'prev' => $prev,
+            'next' => $next
+        ]) ?>
         <div class="s-header__side">
             <!--<button class="btn">Архив</button>
             <button class="btn">Текущие</button>

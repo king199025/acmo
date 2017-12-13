@@ -18,11 +18,6 @@ class Forecast extends AcmoApi
         parent::__construct($url);
     }
 
-    protected function _init()
-    {
-
-    }
-
     public function getForecast($pdk_id, $date = null)
     {
         if($date === null){
