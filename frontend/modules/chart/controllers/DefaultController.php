@@ -30,6 +30,8 @@ class DefaultController extends Controller
         return $this->render('meteo-chart', [
             'forecast' => $api->forecast[$id],
             'name' => $api->names[$id],
+            'next' => $api->getNextId($id),
+            'prev' => $api->getPrevId($id),
             'x' => $x]);
     }
 
@@ -53,7 +55,9 @@ class DefaultController extends Controller
 
         return $this->render('traffic-chart', [
             'statistic' => $statistic,
-            'name' => $api->names[$id]
+            'name' => $api->names[$id],
+            'next' => $api->getNextId($id),
+            'prev' => $api->getPrevId($id),
         ]);
     }
 }

@@ -31,12 +31,12 @@ class BaseAPI
     ];
     //Явления погоды
     public static $weather = [
-        1 => 'Ясно',
-        4 => 'Облачно',
-        10 => 'Дождь',
-        12 => 'Дождь со снегом',
-        13 => 'Снег',
-        20 => 'Град'
+        1 => ['name' => 'Ясно', 'img' => 'sunny.png'],
+        4 => ['name' => 'Облачно', 'img' => 'clouds.png'],
+        10 => ['name' => 'Дождь', 'img' => 'rain.png'],
+        12 => ['name' => 'Дождь со снегом', 'img' => 'weather.png'],
+        13 => ['name' => 'Снег', 'img' => 'snowflake.png'],
+        20 => ['name' => 'Град', 'img' => 'hail.png']
     ];
     //Тип осадков
     public static $prec_type = [

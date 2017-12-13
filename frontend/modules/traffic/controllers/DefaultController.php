@@ -31,6 +31,8 @@ class DefaultController extends Controller
     {
         $api = AcmoApi::get(1)->getCacheData();
         $api->getNextPrevIds($id);
+        $api->traffic[$id][0]['analise'] = $this->getTrafficAnalise($api->traffic[$id][0]);
+        $api->traffic[$id][1]['analise'] = $this->getTrafficAnalise($api->traffic[$id][1]);
 
         return $this->render('view', [
             'traffic' => $api->traffic[$id],
@@ -47,5 +49,24 @@ class DefaultController extends Controller
         $api->getTrafficArchive($id, date(AcmoApi::DATE_FORMAT, time()));
 
         return $this->render('archive', ['traffics' => $api->traffic]);
+    }
+
+    private function getTrafficAnalise($traffic)
+    {
+        $greenStatistic = $traffic['IncJam'] == 0 && $traffic['Occ'] < 50 && $traffic['S'] > 70;
+        $yellowStatistic = $traffic['IncJam'] == 0 && $traffic['Occ'] > 50 && $traffic['Occ'] < 80
+            && $traffic['S'] > 40 && $traffic['S'] < 70;
+        $redStatistic = $traffic['Dist'] <= 5 && $traffic['Occ'] > 80
+            && $traffic['S'] <= 40 && $traffic['AllT'] > 5;
+
+        if ($greenStatistic){
+            return 'green';
+        }
+        if ($yellowStatistic){
+            return 'yellow';
+        }
+        if ($redStatistic){
+            return 'red';
+        }return 'grey';
     }
 }
