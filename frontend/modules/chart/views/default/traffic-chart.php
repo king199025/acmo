@@ -28,16 +28,16 @@ use yii\helpers\ArrayHelper;
 
         <?php echo \miloschuman\highcharts\Highcharts::widget([
             'options' => [
-                'title' => ['text' => 'График температуры, C'],
+                'title' => ['text' => 'График траффика'],
                 'xAxis' => [
-                    'title' => ['text' => 'Время измерения'],
+                    'title' => ['text' => 'Время'],
                     //'type' => 'Logarithmic',
                     'categories' => array_map(function ($item) {
                         return date('H:i', strtotime($item['date']));
                     }, $statistic)
                 ],
                 'yAxis' => [
-                    'title' => ['text' => 'Температура измерения'],
+                    'title' => ['text' => 'Количество авто'],
                     'maxPadding' => 0.01,
                     'min' => -5,
                     'endOnTick' => false,
