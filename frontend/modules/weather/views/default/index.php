@@ -54,10 +54,12 @@
                                 <img src="img/icons/table-photo.png" alt="">
                             </a>
                         </td>
-                        <td class="mr-weather-ico"><img src="
+                        <td class="mr-weather-ico">
                         <?php
-                            echo 'img/icons/' . \common\models\AcmoApi::$weather[$item['weather']]['img'];
-                            ?>" alt="">
+                            if ($item['weather'] > 0){
+                                echo '<img src="/img/icons/' . \common\models\AcmoApi::$weather[$item['weather']]['img'] . '" alt="">';
+                            }else echo 'Нет';
+                            ?>
                         </td>
                         <td class="mr-fallout-type">
                             <?php

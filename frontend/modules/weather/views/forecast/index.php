@@ -1,73 +1,96 @@
 <?php
 /**
  * @var $this \yii\web\View
- * @var $render string
- * @var $name string
- * @var $id integer
+ * @var $forecast array
  */
 ?>
-
-<!-- start meteo-archive-pdk.html-->
-<section class="meteo meteo-archive">
+<section class="traffic-data">
     <!-- start header-section.html-->
     <div class="s-header">
         <?php echo \frontend\widgets\PrevNextWidget::widget([
-            'url' => '/weather/forecast',
-            'name' => $name,
-            'prev' => $prev,
-            'next' => $next
-        ]) ?>
+                'next' => $next,
+                'prev' => $prev,
+                'url' => '/weather/forecast',
+                'name' => $forecast['METEO_NAME']
+            ])?>
         <div class="s-header__side">
-            <a href="<?php echo \yii\helpers\Url::to(['/chart/meteo', 'id' => $id])?>" class="btn margin-right-10"><img src="/img/icons/pie_chart.png" alt=""></a>
-            <a href="<?php echo \yii\helpers\Url::to(['/weather/forecast', 'id' => $id, 'date' => date('d-m-Y 00:00', time() - 86400)])?>" class="btn">Архив</a>
-            <a href="<?php echo \yii\helpers\Url::to(['/weather/forecast', 'id' => $id])?>"class="btn">Текущие</a>
-            <a href="<?php echo \yii\helpers\Url::to(['/weather/forecast', 'id' => $id, 'date' => date('d-m-Y 00:00', time() + 86400)])?>"class="btn">Прогноз</a>
+            <a href="<?php echo \yii\helpers\Url::to(['/chart/meteo', 'id' => $forecast['METEO_ID']])?>" class="btn margin-right-10"><img src="/img/icons/calculator.png" alt=""></a>
+            <a href="<?php echo \yii\helpers\Url::to(['/weather/forecast/view', 'id' => $forecast['METEO_ID'], 'date' => date('d-m-Y 00:00', time() - 86400)])?>" class="btn">Архив</a>
+            <a href="<?php echo \yii\helpers\Url::to(['/weather/forecast', 'id' => $forecast['METEO_ID']])?>"class="btn">Текущие</a>
+            <a href="<?php echo \yii\helpers\Url::to(['/weather/forecast/view', 'id' => $forecast['METEO_ID'], 'date' => date('d-m-Y 00:00', time() + 86400)])?>"class="btn">Прогноз</a>
         </div>
     </div>
     <!-- end header-section.html-->
     <div class="content">
-        <div class="filter">
-            <span>Период с: </span><input class="date-from" type="date"><span>по: </span><input class="date-to" type="date">
+        <div class="traffic-data__video">
+            <?php echo \frontend\widgets\SliderWidget::widget([
+                    'photo' => $photo,
+                    'date' => $forecast['WEATHER_DATE']
+            ])?>
         </div>
-        <input type="hidden" id="meteo_id" value="<?php echo $id?>">
-        <table>
-            <thead>
-            <tr>
-                <th rowspan="2" class="ma-when">Время измерения</th>
-                <th rowspan="2" class="ma-photo-ico"><img src="/img/icons/table-photo-head.png" alt="photo"></th>
-                <th rowspan="2" class="ma-weather-ico"><img src="/img/icons/table-weather-head.png" alt="weather"></th>
-                <th colspan="3" class="ma-fallout">Осадки</th>
-                <th rowspan="2" class="ma-temp">Т возд., C</th>
-                <th rowspan="2" class="ma-dew">Точка росы, С</th>
-                <th rowspan="2" class="ma-wet">Влаж., %</th>
-                <th rowspan="2" class="ma-pressure">Давл., гПа</th>
-                <th colspan="2" class="ma-wind">Ветер</th>
-                <th colspan="3" class="ma-coating">Поверхность</th>
-                <th colspan="2" class="ma-road-body">Тело дороги</th>
-                <th colspan="3" class="ma-layer-fallout">Слой осадков</th>
-            </tr>
-            <tr>
-                <th class="ma-fallout-type">Тип</th>
-                <th class="ma-fallout-sum">Сумма,мм</th>
-                <th class="ma-fallout-intensity">Интен., мм/час</th>
-                <th class="ma-wind-ms">Скор., м/с</th>
-                <th class="ma-wind-grd">Напр., грд</th>
-                <th class="ma-coating-temp">Темп., С</th>
-                <th class="ma-coating-compos">Сост</th>
-                <th class="ma-coating-clutch">К.сцепл.</th>
-                <th class="ma-road-body-temp-min">Т.тела,С(6см)</th>
-                <th class="ma-road-body-temp-max">Т.тела,С(30см)</th>
-                <th class="ma-layer-fallout-water">Вода</th>
-                <th class="ma-layer-fallout-snow">Снег</th>
-                <th class="ma-layer-fallout-ice">Град</th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php echo $render?>
-
-            </tbody>
-        </table>
+        <div class="traffic-data__block">
+            <div class="traffic-data__table--air">
+                <table class="traffic-data__table">
+                    <thead>
+                    <tr>
+                        <th><span class="big-t">t<sup>0</sup></span> воздуха</th>
+                        <th><img src="img/icons/snow-icon.png" alt="" width="35px" height="35px"></th>
+                        <th><?php echo $forecast['T']?><sup>o</sup>C</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Влажность</td>
+                        <td></td>
+                        <td><?php echo $forecast['U']?>%</td>
+                    </tr>
+                    <tr>
+                        <td>Давление</td>
+                        <td></td>
+                        <td><?php echo $forecast['PO']?></td>
+                    </tr>
+                    <tr>
+                        <td>Тип осадков</td>
+                        <td></td>
+                        <td><?php echo \frontend\modules\weather\models\Forecast::$prec_type[$forecast['prec_type']]?></td>
+                    </tr>
+                    <tr>
+                        <td>Скорость ветра</td>
+                        <td><img src="img/icons/arrow-up-right.png" alt="" width="29px" height="22px"></td>
+                        <td><?php echo $forecast['FF']?> м/с</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <img class="road-string" src="/img/road-string2.png" alt="" width="115px" height="128px">
+            </div>
+            <div class="traffic-data__table--surface">
+                <table class="traffic-data__table">
+                    <thead>
+                    <tr>
+                        <th><span class="big-t">t<sup>0</sup></span> поверхности</th>
+                        <th><?php echo $forecast['t_road']?><sup>o</sup>C</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Состояние</td>
+                        <td><?php echo \frontend\modules\weather\models\Forecast::$road_state[$forecast['road_state']]?></td>
+                    </tr>
+                    <tr>
+                        <td>Интенсивность осадков</td>
+                        <td><?php echo $forecast['prec_intensity']?></td>
+                    </tr>
+                    <tr>
+                        <td>Облачность</td>
+                        <td><?php echo $forecast['clouds']?>%</td>
+                    </tr>
+                    <tr>
+                        <td>Туман</td>
+                        <td><?php echo ($forecast['fog'] > 0) ? $forecast['fog'] : 0 ?>%</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-
 </section>
-<!-- end meteo-archive-pdk.html-->

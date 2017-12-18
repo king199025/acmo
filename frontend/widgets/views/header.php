@@ -10,6 +10,9 @@ use yii\helpers\Url;
     </div>
 
     <div class="header__actions">
+        <div class="header__time">
+            <span id="watch"></span>
+        </div>
         <?php
 
         if (Yii::$app->user->isGuest): ?>
@@ -18,7 +21,7 @@ use yii\helpers\Url;
                 <span>Войти</span>
             </a>
         <?php else: ?>
-            <button><img src="/img/icons/settings.png" alt="settings"></button>
+            <button class="header__btn"><img src="/img/icons/settings.png" alt="settings"></button>
             <a data-method="post" href="<?= Url::to(['/user/security/logout']) ?>" class="header__btn" >
                 <img src="/img/icons/exit.png" alt="exit">
                 <span>Выйти</span>

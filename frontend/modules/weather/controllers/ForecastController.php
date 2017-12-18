@@ -10,17 +10,33 @@ namespace frontend\modules\weather\controllers;
 
 
 use common\classes\Debug;
+use common\models\AcmoApi;
+use common\models\BaseAPI;
 use frontend\modules\weather\models\Forecast;
 use yii\web\Controller;
 
 class ForecastController extends Controller
 {
-    public function actionIndex($id, $date = null)
+    public function actionIndex($id)
+    {
+        $api = AcmoApi::get(1)->getCacheData();
+        $date = date(BaseAPI::DATE_FORMAT);
+        $forecast = Forecast::get(1)->getForecast($id, $date);
+
+        return $this->render('index', [
+            'forecast' => $forecast[0],
+            'photo' => $api->photo[$id],
+            'prev' => $api->getPrevId($id),
+            'next' => $api->getNextId($id)
+        ]);
+    }
+
+    public function actionView($id, $date = null)
     {
         $api = Forecast::get(1);
         $forecast = $api->getForecast($id, $date);
 
-        return $this->render('index', [
+        return $this->render('view', [
             'render' => $this->_getRender($forecast),
             'id' => $id,
             'name' => $forecast[0]['METEO_NAME'],
@@ -28,28 +44,6 @@ class ForecastController extends Controller
             'next' => $api->getNextId($id)
         ]);
     }
-
-    /*public function actionArchive($id, $date)
-    {
-        $forecast = Forecast::get(1)->getForecast($id, $date);
-
-        return $this->render('index', [
-            'render' => $this->_getRender($forecast),
-            'id' => $id,
-            'name' => $forecast[0]['METEO_NAME']
-        ]);
-    }
-
-    public function actionFuture($id, $date)
-    {
-        $forecast = Forecast::get(1)->getForecast($id, $date);
-
-        return $this->render('index', [
-            'render' => $this->_getRender($forecast),
-            'id' => $id,
-            'name' => $forecast[0]['METEO_NAME']
-        ]);
-    }*/
 
     private function _getRender($forecast)
     {
