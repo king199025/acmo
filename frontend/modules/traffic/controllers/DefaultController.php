@@ -21,7 +21,7 @@ class DefaultController extends Controller
         $api = AcmoApi::get(1)->getCacheData();
 
         foreach ($api->names as $id => $name) {
-            $names[$id] = AcmoApi::parsePdkName($name);
+            $names[$id] =$name;
         }
 
         return $this->render('index', ['traffics' => $api->traffic, 'names' => $names]);

@@ -4,8 +4,7 @@
         <table>
             <thead>
             <tr>
-                <th rowspan="2" class="mrt-pdk">ПДК</th>
-                <th class="mrt-post-name">Наименование ПДК</th>
+                <th rowspan="2" class="mrt-pdk">Место</th>
                 <th class="mrt-chart" rowspan="1" colspan="2">Схема</th>
                 <th class="mrt-photo-ico" rowspan="2"><img src="img/icons/table-photo-head.png" alt="photo"></th>
                 <th class="mrt-time" rowspan="2">Время наблюдения</th>
@@ -17,7 +16,6 @@
                 <th class="mrt-ellipsis" rowspan="2">...</th>
             </tr>
             <tr>
-                <th class="mr-location">Местоположение (км+)</th>
                 <th class="mr-fallout-sum"><img class="arrow" src="/img/icons/arrow-reverse.png" alt="arrow-down"></th>
                 <th class="mr-fallout-type"><img class="arrow" src="/img/icons/arrow-direct.png" alt="arrow-top"></th>
                 <th class="reverse"><img class="arrow" src="/img/icons/arrow-reverse.png" alt="">обратное</th>
@@ -37,10 +35,10 @@
             <?php foreach ($traffics as $pdk_id => $traffic):?>
                 <?php if(is_array($traffic[0])):?>
                     <tr>
-                        <td class="mrt-pdk"><img class="block-img" src="/img/icons/block-green.png" alt=""><?php echo $names[$pdk_id]['id']?></td>
-                        <td class="mrt-name-location">
-                            <a href="<?php echo \yii\helpers\Url::to(['/traffic/view', 'id' => $pdk_id])?>"><span class="city"><?php echo $names[$pdk_id]['name']?></span></a>
-                            <span class="direction"><?php echo $names[$pdk_id]['distance']?></span>
+                        <td class="mrt-pdk"><img class="block-img" src="/img/icons/block-green.png" alt="">
+                            <a href="<?php echo \yii\helpers\Url::to(['/traffic/view', 'id' => $pdk_id])?>">
+                                <span><?php echo $names[$pdk_id]?></span>
+                            </a>
                         </td>
                         <td class="mrt-chart-reverse"><img class="arrow" src="img/icons/arrow-reverse-green.png" alt=""></td>
                         <td class="mrt-chart-direct"><img class="arrow" src="img/icons/arrow-direct-green.png" alt=""></td>
