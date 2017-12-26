@@ -35,7 +35,11 @@
             <?php foreach ($traffics as $pdk_id => $traffic):?>
                 <?php if(is_array($traffic[0])):?>
                     <tr>
-                        <td class="mrt-pdk"><img class="block-img" src="/img/icons/block-green.png" alt=""><?php echo $names[$pdk_id]?></td>
+                        <td class="mrt-pdk"><img class="block-img" src="/img/icons/block-green.png" alt="">
+                            <a href="<?php echo \yii\helpers\Url::to(['/traffic/view', 'id' => $pdk_id])?>">
+                                <span><?php echo $names[$pdk_id]?></span>
+                            </a>
+                        </td>
                         <td class="mrt-chart-reverse"><img class="arrow" src="img/icons/arrow-reverse-green.png" alt=""></td>
                         <td class="mrt-chart-direct"><img class="arrow" src="img/icons/arrow-direct-green.png" alt=""></td>
                         <td class="mrt-photo-ico"><a href="<?php echo \yii\helpers\Url::to(['/video/view', 'id' => $pdk_id])?>"><img src="img/icons/table-photo-green.png" alt=""></a></td>
