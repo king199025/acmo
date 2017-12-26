@@ -34,7 +34,6 @@
             <thead>
             <tr>
                 <th rowspan="2" class="ma-when">Время измерения</th>
-                <th rowspan="2" class="ma-photo-ico"><img src="/img/icons/table-photo-head.png" alt="photo"></th>
                 <th rowspan="2" class="ma-weather-ico"><img src="/img/icons/table-weather-head.png" alt="weather"></th>
                 <th colspan="3" class="ma-fallout">Осадки</th>
                 <th rowspan="2" class="ma-temp">Т возд., C</th>

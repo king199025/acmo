@@ -12,8 +12,7 @@
             <table>
                 <thead>
                 <tr>
-                    <th rowspan="2" class="mr-pdk">ПДК</th>
-                    <th class="mr-post-control">Пост контроля</th>
+                    <th class="mr-location" rowspan="2">Место</th>
                     <th class="mr-time" rowspan="2">Время наблюдения</th>
                     <th class="mr-photo-ico" rowspan="2"><img src="img/icons/table-photo-head.png" alt="photo"></th>
                     <th class="mr-weather-ico" rowspan="2"><img src="img/icons/table-weather-head.png" alt="weather">
@@ -25,10 +24,8 @@
                     <th class="mr-pressure" rowspan="2">Давл., гПа</th>
                     <th class="mr-wind" colspan="2">Ветер</th>
                     <th class="mr-coating" colspan="2">Покрытие</th>
-                    <th class="mr-ice" rowspan="2">% льда</th>
                 </tr>
                 <tr>
-                    <th class="mr-location">Местоположение (км+)</th>
                     <th class="mr-fallout-type">Тип</th>
                     <th class="mr-fallout-sum">Сумма,мм</th>
                     <th class="mr-fallout-intensity">Интен., мм/час</th>
@@ -41,12 +38,9 @@
                 <tbody>
 
                 <?php foreach ($weather as $item): ?>
-                        <?php $item['METEO_NAME'] = \common\models\AcmoApi::parsePdkName($item['METEO_NAME'])?>
                     <tr>
-                        <td class="mr-pdk"><?php echo $item['METEO_NAME']['id'] ?></td>
                         <td class="mr-post-control">
-                            <a href="<?php echo \yii\helpers\Url::to(['/weather/forecast', 'id' => $item['METEO_ID']])?>"><span class="city"><?php echo $item['METEO_NAME']['name'] ?></span></a>
-                            <span class="direction"><?php echo $item['METEO_NAME']['distance'] ?></span>
+                            <a href="<?php echo \yii\helpers\Url::to(['/weather/forecast', 'id' => $item['METEO_ID']])?>"><span><?php echo $item['METEO_NAME'] ?></span></a>
                         </td>
                         <td class="mr-time"><?php echo $item['WEATHER_UDATE'] ?></td>
                         <td class="mr-photo-ico">
@@ -84,7 +78,6 @@
                             ?>
                         </td>
                         <td class="mr-coating-c"><?php echo $item['t_road'] ?></td>
-                        <td class="mr-ice"><?php echo $item['adhesion'] ?></td>
                     </tr>
                 <?php endforeach; ?>
 

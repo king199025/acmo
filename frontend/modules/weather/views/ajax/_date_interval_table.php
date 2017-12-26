@@ -9,11 +9,6 @@
     <?php \common\models\AcmoApi::check($item) ?>
     <tr>
         <td class="ma-when"><?php echo $item['WEATHER_DATE'] ?></td>
-        <td class="ma-photo-ico">
-            <a href="<?php echo \yii\helpers\Url::to(['/video/view', 'id' => $item['METEO_ID']]) ?>">
-                <img src="/img/icons/table-photo.png" alt="">
-            </a>
-        </td>
         <td class="ma-weather-ico"><img src="/img/icons/<?php echo \common\models\AcmoApi::$weather[$item['weather']]['img'] ?>"
                                         alt="">
         </td>
