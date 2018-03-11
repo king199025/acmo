@@ -39,6 +39,7 @@ map.customGeoCoder('Чувашия', [], function (coor) {
                                 var activeTab = $(itemId);
                                 $('.tabcontent').hide();
                                 activeTab.show();
+                                $('#photo-date').text($(this).data('date'));
                                 $('.tablinks a').removeClass('active');
                                 $(this).addClass('active');
                             });

@@ -39,7 +39,7 @@ class ForecastController extends Controller
         return $this->render('view', [
             'render' => $this->_getRender($forecast),
             'id' => $id,
-            'name' => $forecast[0]['METEO_NAME'],
+            'name' => $api->names[$id],
             'prev' => $api->getPrevId($id),
             'next' => $api->getNextId($id)
         ]);

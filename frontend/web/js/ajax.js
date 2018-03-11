@@ -19,12 +19,29 @@ $(document).ready(function () {
                         var res = JSON.parse(response);
                         if(res.error){
                             alert(res.error);
+                            $('tbody').html('');
                         }else if (res.success){
                             $('tbody').html(res.success);
                         }
+                        window.history.pushState(null, null, '/weather/forecast/view?id=' + id + '&date=' + date_from + ' 00:00');
                     }
                 }
             );
         }
     });
+
+    $(document).on('change', '.date', function () {
+        var id = $(this).data('pdk-id');
+        var date = $(this).val();
+        $('.background-request').show();
+        $.ajax({
+            url:'/video/view',
+            data: {id:id, date:date},
+            success: function (response) {
+                $('.video-archive__content').html(response);
+                window.history.pushState(null, null, '/video/view?id=' + id + '&date=' + date + ' 00:00');
+                $('.background-request').hide();
+            }
+        })
+    })
 });

@@ -9,8 +9,13 @@
 namespace common\models;
 
 use common\classes\Debug;
+use console\models\ConsoleApi;
 use yii\db\Exception;
 
+/**
+ * Class BaseAPI
+ * @package common\models
+ */
 class BaseAPI
 {
     const USER_LOGIN = 'taranishin';
@@ -79,6 +84,10 @@ class BaseAPI
         return get_called_class();
     }
 
+    /**
+     * @param $url
+     * @return AcmoApi|ConsoleApi|BaseAPI
+     */
     public static function get($url)
     {
         $class = self::getClass();

@@ -42,7 +42,11 @@
                     <thead>
                     <tr>
                         <th>Т воздух</th>
-                        <th><img src="img/icons/<?php echo \common\models\AcmoApi::$weather[$meteo['weather']]['img']?>" alt=""></th>
+                        <th>
+                            <?php if($meteo['weather']):?>
+                                <img src="img/icons/<?php echo \common\models\AcmoApi::$weather[$meteo['weather']]['img']?>" alt="">
+                            <?php endif;?>
+                        </th>
                         <th><span><?php echo $meteo['T']?></span> °C</th>
                     </tr>
                     </thead>
@@ -106,28 +110,44 @@
 
                     <tr>
                         <td class="bg-green">Сейчас</td>
-                        <td><img src="img/icons/<?php echo \common\models\AcmoApi::$weather[$forecast[0]['weather']]['img']?>" alt=""></td>
+                        <td>
+                            <?php if ($forecast[0]['weather']):?>
+                                <img src="img/icons/<?php echo \common\models\AcmoApi::$weather[$forecast[0]['weather']]['img']?>" alt="">
+                            <?php endif;?>
+                        </td>
                         <td><?php echo $forecast[0]['FF']?></td>
                         <td><?php echo $forecast[0]['T']?></td>
                         <td><?php echo $forecast[0]['t_road']?></td>
                     </tr>
                     <tr>
                         <td class="bg-yellow"><?php echo date('H:i', strtotime($forecast[1]['WEATHER_DATE']))?></td>
-                        <td><img src="img/icons/<?php echo \common\models\AcmoApi::$weather[$forecast[1]['weather']]['img']?>" alt=""></td>
+                        <td>
+                            <?php if ($forecast[1]['weather']):?>
+                                <img src="img/icons/<?php echo \common\models\AcmoApi::$weather[$forecast[1]['weather']]['img']?>" alt="">
+                            <?php endif;?>
+                        </td>
                         <td><?php echo $forecast[1]['FF']?></td>
                         <td><?php echo $forecast[1]['T']?></td>
                         <td><?php echo $forecast[1]['t_road']?></td>
                     </tr>
                     <tr>
                         <td class="bg-grey"><?php echo date('H:i', strtotime($forecast[2]['WEATHER_DATE']))?></td>
-                        <td><img src="img/icons/<?php echo \common\models\AcmoApi::$weather[$forecast[2]['weather']]['img']?>" alt=""></td>
+                        <td>
+                            <?php if ($forecast[2]['weather']):?>
+                                <img src="img/icons/<?php echo \common\models\AcmoApi::$weather[$forecast[2]['weather']]['img']?>" alt="">
+                            <?php endif;?>
+                        </td>
                         <td><?php echo $forecast[2]['FF']?></td>
                         <td><?php echo $forecast[2]['T']?></td>
                         <td><?php echo $forecast[2]['t_road']?></td>
                     </tr>
                     <tr>
                         <td class="bg-grey"><?php echo date('H:i', strtotime($forecast[3]['WEATHER_DATE']))?></td>
-                        <td><img src="img/icons/<?php echo \common\models\AcmoApi::$weather[$forecast[3]['weather']]['img']?>" alt=""></td>
+                        <td>
+                            <?php if ($forecast[3]['weather']):?>
+                                <img src="img/icons/<?php echo \common\models\AcmoApi::$weather[$forecast[3]['weather']]['img']?>" alt="">
+                            <?php endif;?>
+                        </td>
                         <td><?php echo $forecast[3]['FF']?></td>
                         <td><?php echo $forecast[3]['T']?></td>
                         <td><?php echo $forecast[3]['t_road']?></td>

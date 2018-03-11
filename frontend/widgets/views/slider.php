@@ -8,15 +8,14 @@
 <div class="video">
     <?php $i = 0?>
     <?php $buttons = ''?>
-    <?php while (isset($photo[$i])):?>
+    <?php while (isset($photo[$i]) && ($i <= 7)):?>
+        <img id="img<?php echo $i?>" class="tabcontent" src="<?= $photo[$i]['url']?>" alt="">
+        <?php $buttons .= '<li class="tablinks"><a href="#img'.$i.'" data-date="' . $photo[$i]['date'] . '"></a></li>'?>
         <?php $i++?>
-        <img id="img<?php echo $i?>" class="tabcontent" src="<?php echo $photo[$i - 1]?>" alt="">
-        <?php $buttons .= '<li class="tablinks"><a href="#img'.$i.'"></a></li>'?>
-        <?php if($i >= 7) break?>
     <?php endwhile;?>
     <div>
         <span></span>
-        <?php echo $date?>
+        <strong id="photo-date"><?php echo $photo[0]['date']?></strong>
         <ul>
             <?php echo $buttons?>
         </ul>

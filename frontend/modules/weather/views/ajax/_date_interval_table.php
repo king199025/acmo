@@ -4,8 +4,9 @@
  * @var array $weather
  */
 ?>
-
+<?php if (count($weather) > 1):?>
 <?php foreach ($weather as $item): ?>
+
     <?php \common\models\AcmoApi::check($item) ?>
     <tr>
         <td class="ma-when"><?php echo $item['WEATHER_DATE'] ?></td>
@@ -30,4 +31,7 @@
         <td class="ma-layer-fallout-snow"></td>
         <td class="ma-layer-fallout-ice"></td>
     </tr>
+
 <?php endforeach; ?>
+
+<?php endif;?>

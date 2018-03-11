@@ -22,7 +22,7 @@ class AppAsset extends AssetBundle
         'css/libs.min.css',
         'css/styles.min.css',
         'css/map.css',
-        //'css/site.min.css',
+        'css/site.css',
     ];
     public $js = [
         'js/jquery-3.2.1.min.js',

@@ -12,7 +12,7 @@
     <!-- start header-section.html-->
     <div class="s-header">
         <?php echo \frontend\widgets\PrevNextWidget::widget([
-            'url' => '/weather/forecast',
+            'url' => '/weather/forecast/view',
             'name' => $name,
             'prev' => $prev,
             'next' => $next
@@ -27,7 +27,7 @@
     <!-- end header-section.html-->
     <div class="content">
         <div class="filter">
-            <span>Период с: </span><input class="date-from" type="date"><span>по: </span><input class="date-to" type="date">
+            <span>Период с: </span><input class="date-from" type="date" value="<?= date('Y-m-d', ($_GET['date']) ? strtotime($_GET['date']) : time())?>"><span>по: </span><input class="date-to" type="date">
         </div>
         <input type="hidden" id="meteo_id" value="<?php echo $id?>">
         <table>

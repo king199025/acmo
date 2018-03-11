@@ -31,7 +31,7 @@ class AjaxController extends DefaultController
 
         $weather = $this->getData(1, 'forecasta', ['id' => $post['id'], 'date' => $date_from, 'last' => $interval]);
 
-        if(!empty($weather) && null !== $weather){
+        if(count($weather) > 1 && null !== $weather){
             ArrayHelper::multisort($weather, function ($item) {
                 return strtotime($item['WEATHER_DATE']);
             }, SORT_ASC);

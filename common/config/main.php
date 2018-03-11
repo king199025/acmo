@@ -50,6 +50,7 @@ return [
             'enableUnconfirmedLogin' => true,
             'enableGeneratingPassword' => true,
             'enableConfirmation' => true,
+            'rememberFor' => 86400 * 7,
             'enableFlashMessages' => false,
             'confirmWithin' => 86400,
             'cost' => 12,
