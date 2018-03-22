@@ -12,6 +12,7 @@ namespace frontend\modules\weather\controllers;
 use common\classes\Debug;
 use common\models\AcmoApi;
 use common\models\BaseAPI;
+use common\models\Region;
 use frontend\modules\weather\models\Forecast;
 use yii\web\Controller;
 

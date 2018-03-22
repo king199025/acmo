@@ -4,6 +4,7 @@ namespace frontend\modules\video\controllers;
 
 use common\classes\Debug;
 use common\models\AcmoApi;
+use common\models\Region;
 use yii\web\Controller;
 
 /**
@@ -18,7 +19,8 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         $pdk_id = \Yii::$app->session->get('pdk_id');
-        $api = AcmoApi::get($pdk_id)->getCacheData();
+        $region = Region::findOne($pdk_id);
+        $api = AcmoApi::get($region)->getCacheData();
 
         return $this->render('index', ['photos' => $api->photo, 'meteo' => $api->meteo]);
     }

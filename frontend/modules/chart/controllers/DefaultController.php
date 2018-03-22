@@ -6,6 +6,7 @@ use common\classes\Debug;
 use common\models\AcmoApi;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
+use common\models\Region;
 
 /**
  * Default controller for the `chart` module

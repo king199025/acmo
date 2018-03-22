@@ -23,7 +23,7 @@ class ConsoleApi extends AcmoApi
     {
         $key = 'photo_api_' . $this->id . '_' . date('d-m-Y H', strtotime($this->date));
 
-        $this->clearDir();
+        //$this->clearDir();
 
         if (!empty($this->names)) {
             foreach (array_keys($this->names) as $id) {

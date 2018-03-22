@@ -72,7 +72,7 @@ class DefaultController extends Controller
             \Yii::$app->response->cookies->add(new Cookie([
                 'name' => 'pdk_id',
                 'value' => $pdk_id,
-                'expire' => 2
+                'expire' => 3600
             ]));
 
             return $this->redirect('/');

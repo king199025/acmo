@@ -5,6 +5,7 @@ namespace frontend\modules\traffic\controllers;
 use common\classes\Debug;
 use common\models\AcmoApi;
 use yii\web\Controller;
+use common\models\Region;
 
 /**
  * Default controller for the `traffic` module
@@ -19,7 +20,8 @@ class DefaultController extends Controller
     {
         $names = [];
         $pdk_id = \Yii::$app->session->get('pdk_id');
-        $api = AcmoApi::get($pdk_id)->getCacheData();
+        $region = Region::findOne($pdk_id);
+        $api = AcmoApi::get($region)->getCacheData();
 
         foreach ($api->names as $id => $name) {
             $names[$id] =$name;
@@ -31,7 +33,8 @@ class DefaultController extends Controller
     public function actionView($id)
     {
         $pdk_id = \Yii::$app->session->get('pdk_id');
-        $api = AcmoApi::get($pdk_id)->getCacheData();
+        $region = Region::findOne($pdk_id);
+        $api = AcmoApi::get($region)->getCacheData();
         $api->getNextPrevIds($id);
         $api->traffic[$id][0]['analise'] = $this->getTrafficAnalise($api->traffic[$id][0]);
         $api->traffic[$id][1]['analise'] = $this->getTrafficAnalise($api->traffic[$id][1]);
