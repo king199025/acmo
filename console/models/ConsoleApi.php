@@ -21,7 +21,7 @@ class ConsoleApi extends AcmoApi
 
     public function getAllVideo()
     {
-        $key = 'photo_api_' . date('d-m-Y H', strtotime($this->date));
+        $key = 'photo_api_' . $this->id . '_' . date('d-m-Y H', strtotime($this->date));
 
         $this->clearDir();
 

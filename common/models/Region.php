@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "region".
@@ -48,5 +49,24 @@ class Region extends \yii\db\ActiveRecord
             'coordLatitude' => 'Координаты широты',
             'coordLongitude' => 'Координаты долготы',
         ];
+    }
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserRegions()
+    {
+        return $this->hasMany(UserRegion::className(), ['region_id' => 'id']);
+    }
+
+    public static function getRegionList()
+    {
+        return ArrayHelper::map(self::find()->all(), 'id', 'name');
+    }
+
+    public static function getUserRegionList($user_id)
+    {
+        $regions = self::find()->joinWith('userRegions')->where(['user_id' => $user_id])->all();
+
+        return ArrayHelper::map($regions, 'id', 'name');
     }
 }

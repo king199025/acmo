@@ -18,7 +18,8 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         $names = [];
-        $api = AcmoApi::get(1)->getCacheData();
+        $pdk_id = \Yii::$app->session->get('pdk_id');
+        $api = AcmoApi::get($pdk_id)->getCacheData();
 
         foreach ($api->names as $id => $name) {
             $names[$id] =$name;
@@ -29,7 +30,8 @@ class DefaultController extends Controller
 
     public function actionView($id)
     {
-        $api = AcmoApi::get(1)->getCacheData();
+        $pdk_id = \Yii::$app->session->get('pdk_id');
+        $api = AcmoApi::get($pdk_id)->getCacheData();
         $api->getNextPrevIds($id);
         $api->traffic[$id][0]['analise'] = $this->getTrafficAnalise($api->traffic[$id][0]);
         $api->traffic[$id][1]['analise'] = $this->getTrafficAnalise($api->traffic[$id][1]);
@@ -45,7 +47,9 @@ class DefaultController extends Controller
 
     public function actionArchive($id)
     {
-        $api = AcmoApi::get(1);
+        $pdk_id = \Yii::$app->session->get('pdk_id');
+        $region = Region::findOne($pdk_id);
+        $api = AcmoApi::get($region);
         $api->getTrafficArchive($id, date(AcmoApi::DATE_FORMAT, time()));
 
         return $this->render('archive', ['traffics' => $api->traffic]);

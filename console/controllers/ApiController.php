@@ -8,6 +8,7 @@
 
 namespace console\controllers;
 
+use common\models\Region;
 use console\models\ConsoleApi;
 use \yii\console\Controller;
 use yii\helpers\Console;
@@ -21,19 +22,23 @@ class ApiController extends Controller
 
     public function actionCachePhoto()
     {
-        $api = ConsoleApi::get(1);
+        /*$api = ConsoleApi::get(1);
 
         if($api->getAllVideo()){
             $this->stdout("Caching photo successful\n", Console::FG_GREEN);
-        }else $this->stdout("An error occurred during caching!!!\n", Console::FG_RED);
+        }else $this->stdout("An error occurred during caching!!!\n", Console::FG_RED);*/
     }
 
     public function actionCacheData()
     {
-        $api = ConsoleApi::get(1)->setCacheData();
+        $regions = Region::find()->all();
 
-        if($api) {
-            $this->stdout("Caching data successful\n", Console::FG_GREEN);
+        foreach ($regions as $region) {
+            $api = ConsoleApi::get($region)->setCacheData();
+
+            if($api) {
+                $this->stdout("Caching data successful\n", Console::FG_GREEN);
+            }
         }
     }
 }

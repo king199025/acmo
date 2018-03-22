@@ -23,7 +23,9 @@ class DefaultController extends Controller
 
     public function actionMeteo($id)
     {
-        $api = AcmoApi::get(1)->getCacheData();
+        $pdk_id = \Yii::$app->session->get('pdk_id');
+        $region = Region::findOne($pdk_id);
+        $api = AcmoApi::get($region)->getCacheData();
 
         $x = ArrayHelper::getColumn($api->forecast[$id], 'WEATHER_DATE');
 
@@ -37,7 +39,9 @@ class DefaultController extends Controller
 
     public function actionTraffic($id)
     {
-        $api = AcmoApi::get(1);
+        $pdk_id = \Yii::$app->session->get('pdk_id');
+        $region = Region::findOne($pdk_id);
+        $api = AcmoApi::get($region);
         $api->getTrafficByDay($id);
 
         foreach ($api->traffic as $traffic ){

@@ -17,20 +17,23 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        $api = AcmoApi::get(1)->getCacheData();
+        $pdk_id = \Yii::$app->session->get('pdk_id');
+        $api = AcmoApi::get($pdk_id)->getCacheData();
 
         return $this->render('index', ['photos' => $api->photo, 'meteo' => $api->meteo]);
     }
 
-    public function actionView($id, $date = null){
-
-        $api = AcmoApi::get(1)->getCacheData();
+    public function actionView($id, $date = null)
+    {
+        $pdk_id = \Yii::$app->session->get('pdk_id');
+        $region = Region::findOne($pdk_id);
+        $api = AcmoApi::get($region)->getCacheData();
         $api->getNextPrevIds($id);
         $photos = $api->photo[$id];
         $meteo = $api->meteo[$id];
 
         if ($date !== null) {
-            $photos = AcmoApi::get(1)->getVideoByVideoList($id, date('d.m.Y 10:00', strtotime($date)));
+            $photos = AcmoApi::get($region)->getVideoByVideoList($id, date('d.m.Y 10:00', strtotime($date)));
         }
 
         if (\Yii::$app->request->isAjax) {

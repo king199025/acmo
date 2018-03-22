@@ -25,7 +25,7 @@ class AppAsset extends AssetBundle
         'css/site.css',
     ];
     public $js = [
-        'js/jquery-3.2.1.min.js',
+        //'js/jquery-3.2.1.min.js',
         'js/script.min.js',
         'js/ajax.js',
         '//api-maps.yandex.ru/2.1/?lang=ru-RU',

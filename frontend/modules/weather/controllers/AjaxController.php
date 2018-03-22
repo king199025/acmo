@@ -28,8 +28,8 @@ class AjaxController extends DefaultController
             } else
                 return json_encode(['error' => 'Дата окончания не может быть меньше даты начала']);
         }
-
-        $weather = $this->getData(1, 'forecasta', ['id' => $post['id'], 'date' => $date_from, 'last' => $interval]);
+        $pdk_id = \Yii::$app->session->get('pdk_id');
+        $weather = $this->getData($pdk_id, 'forecasta', ['id' => $post['id'], 'date' => $date_from, 'last' => $interval]);
 
         if(count($weather) > 1 && null !== $weather){
             ArrayHelper::multisort($weather, function ($item) {
