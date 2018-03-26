@@ -12,6 +12,7 @@ namespace frontend\modules\weather\controllers;
 use common\classes\Debug;
 use common\models\AcmoApi;
 use common\models\BaseAPI;
+use common\models\Region;
 use frontend\modules\weather\models\Forecast;
 use yii\web\Controller;
 
@@ -19,9 +20,11 @@ class ForecastController extends Controller
 {
     public function actionIndex($id)
     {
-        $api = AcmoApi::get(1)->getCacheData();
+        $pdk_id = \Yii::$app->session->get('pdk_id');
+        $region = Region::findOne($pdk_id);
+        $api = AcmoApi::get($region)->getCacheData();
         $date = date(BaseAPI::DATE_FORMAT);
-        $forecast = Forecast::get(1)->getForecast($id, $date);
+        $forecast = Forecast::get($region)->getForecast($id, $date);
 
         return $this->render('index', [
             'forecast' => $forecast[0],
@@ -33,13 +36,15 @@ class ForecastController extends Controller
 
     public function actionView($id, $date = null)
     {
-        $api = Forecast::get(1);
+        $pdk_id = \Yii::$app->session->get('pdk_id');
+        $region = Region::findOne($pdk_id);
+        $api = Forecast::get($region);
         $forecast = $api->getForecast($id, $date);
 
         return $this->render('view', [
             'render' => $this->_getRender($forecast),
             'id' => $id,
-            'name' => $forecast[0]['METEO_NAME'],
+            'name' => $api->names[$id],
             'prev' => $api->getPrevId($id),
             'next' => $api->getNextId($id)
         ]);

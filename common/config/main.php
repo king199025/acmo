@@ -37,6 +37,7 @@ return [
         'rbac' => 'dektrium\rbac\RbacWebModule',
         'user' => [
             'class' => 'dektrium\user\Module',
+            'viewPath' => '@frontend/views/user',
             'controllerMap' => [
                 'registration' => '\frontend\controllers\user\RegUserController',
                 'recovery' => '\frontend\controllers\user\RecoveryController',
@@ -50,6 +51,7 @@ return [
             'enableUnconfirmedLogin' => true,
             'enableGeneratingPassword' => true,
             'enableConfirmation' => true,
+            'rememberFor' => 86400 * 7,
             'enableFlashMessages' => false,
             'confirmWithin' => 86400,
             'cost' => 12,

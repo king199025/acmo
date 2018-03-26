@@ -11,7 +11,7 @@
 
 use dektrium\user\widgets\Connect;
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap\ActiveForm;
 
 /**
  * @var yii\web\View                   $this
@@ -87,9 +87,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $form->field($model, 'password', ['inputOptions' => ['class' => 'form-control', 'tabindex' => '2']])->passwordInput()->label(Yii::t('user', 'Password') . ($module->enablePasswordRecovery ? ' (' . Html::a(Yii::t('user', 'Forgot password?'), ['/user/recovery/request'], ['tabindex' => '5']) . ')' : '')) ?>
 
+        <?= $form->field($model, 'rememberMe', ['options' => ['tag'=> false], 'checkboxTemplate' =>
+            '{beginLabel}{input}<span></span>сохранить пароль{endLabel}'])->checkbox(['tabindex' => '4', 'class' => 'checkbox']) ?>
 
-
-        <label><input type="checkbox" name="login-form[rememberMe]" class="checkbox"/><span></span>сохранить пароль</label>
         <?= Html::submitButton(Yii::t('user', 'Sign in'), ['class' => 'btn btn-primary btn-block', 'tabindex' => '3']) ?>
 
         <?php ActiveForm::end(); ?>

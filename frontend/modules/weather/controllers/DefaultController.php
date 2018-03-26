@@ -19,7 +19,9 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         $popupWindow = [];
-        $api = AcmoApi::get(1);
+        $pdk_id = \Yii::$app->session->get('pdk_id');
+        $region = Region::findOne($pdk_id);
+        $api = AcmoApi::get($region);
 
         return $this->render('index', [
             'weather' => $api->meteo,
@@ -29,7 +31,9 @@ class DefaultController extends Controller
 
     public function actionView($id)
     {
-        $api = AcmoApi::get(1)->getCacheData();
+        $pdk_id = \Yii::$app->session->get('pdk_id');
+        $region = Region::findOne($pdk_id);
+        $api = AcmoApi::get($region)->getCacheData();
 
         if(!empty($api->forecast[$id])){
             $render = $this->renderPartial('/ajax/_date_interval_table', ['weather' => $api->forecast[$id]]);
@@ -54,7 +58,7 @@ class DefaultController extends Controller
     protected function getData($id, $type, $data)
     {
         if($region = Region::findOne($id)){
-            return AcmoApi::get($region->url)->getData($type, $data);
+            return AcmoApi::get($region)->getData($type, $data);
         }
         return null;
     }

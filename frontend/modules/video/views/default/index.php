@@ -12,7 +12,7 @@
         <?php foreach ($photos as $id => $photo):?>
             <a href="<?php echo \yii\helpers\Url::to(['/video/view', 'id' => $id])?>">
             <figure class="video-review__item">
-                <img src="<?php echo $photo[0]?> " alt="">
+                <img src="<?php echo $photo[0]['url']?> " alt="">
                 <figcaption><?php echo $meteo[$id]['METEO_NAME']?></figcaption>
             </figure></a>
         <?php endforeach;?>

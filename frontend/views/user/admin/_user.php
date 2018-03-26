@@ -18,3 +18,10 @@
 <?= $form->field($user, 'email')->textInput(['maxlength' => 255]) ?>
 <?= $form->field($user, 'username')->textInput(['maxlength' => 255]) ?>
 <?= $form->field($user, 'password')->passwordInput() ?>
+
+<?= $form->field($user, 'regionIds')->widget(\kartik\select2\Select2::className(), [
+    'data' => \common\models\Region::getRegionList(),
+    'pluginOptions' => [
+        'multiple' => true
+    ]
+]) ?>

@@ -21,7 +21,7 @@ use yii\helpers\Url;
                 <span>Войти</span>
             </a>
         <?php else: ?>
-            <button class="header__btn"><img src="/img/icons/settings.png" alt="settings"></button>
+            <a href="<?= Url::to(['/users/setting', 'user_id' => Yii::$app->user->id])?>" class="header__btn"><img src="/img/icons/settings.png" alt="settings"></a>
             <a data-method="post" href="<?= Url::to(['/user/security/logout']) ?>" class="header__btn" >
                 <img src="/img/icons/exit.png" alt="exit">
                 <span>Выйти</span>

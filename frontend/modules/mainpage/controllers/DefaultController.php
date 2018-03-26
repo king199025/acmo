@@ -7,6 +7,7 @@ use common\classes\Debug;
 use common\models\AcmoApi;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\Cookie;
 
 /**
  * Default controller for the `mainpage` module
@@ -36,48 +37,45 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         $popupWindow = [];
-        $api = AcmoApi::get(1)->getCacheData();
 
-        foreach ($api->meteo as &$item){
-            $popupWindow[] = [
-                'name' => $item['METEO_NAME'],
-                'lat' => $item['latitude'],
-                'lon' => $item['longitude'],
-                'temperature' => $item['T'],
-                'render' => $this->renderPartial('_popup_window', [
-                    'meteo' => $api->meteo[$item['METEO_ID']],
-                    'forecast' => $api->getForecastInterval($item['METEO_ID'], 4),
-                    'photo' => $api->photo[$item['METEO_ID']],
-                    'traffic' => $api->traffic[$item['METEO_ID']],
-                ]),
-            ];
+        if (($pdk_id = \Yii::$app->session->get('pdk_id')) || ($pdk_id = \Yii::$app->request->cookies->getValue('pdk_id'))) {
+            $region = Region::findOne($pdk_id);
+            $api = AcmoApi::get($region)->getCacheData();
+
+            foreach ($api->meteo as &$item){
+                $popupWindow[] = [
+                    'name' => $item['METEO_NAME'],
+                    'lat' => $item['latitude'],
+                    'lon' => $item['longitude'],
+                    'temperature' => $item['T'],
+                    'render' => $this->renderPartial('_popup_window', [
+                        'meteo' => $api->meteo[$item['METEO_ID']],
+                        'forecast' => $api->getForecastInterval($item['METEO_ID'], 4),
+                        'photo' => $api->photo[$item['METEO_ID']],
+                        'traffic' => $api->traffic[$item['METEO_ID']],
+                    ]),
+                ];
+            }
+
+            return $this->render('index', [
+                'popupWindow' => $popupWindow
+            ]);
+        } else {
+            return $this->render('index');
         }
-
-        return $this->render('index', [
-            'popupWindow' => $popupWindow
-        ]);
     }
 
-    /**
-     * @param $region_id
-     * @param $type
-     * @param $data
-     * @return mixed|null
-     */
-    protected function getData($region_id, $type, $data)
+    public function actionSetPdk()
     {
-        if($region = Region::findOne($region_id)){
-            return AcmoApi::get($region->url)->getData($type, $data);
-        }
-        return null;
-    }
+        if ($pdk_id = \Yii::$app->request->post('region_id')) {
+            \Yii::$app->session->set('pdk_id', $pdk_id);
+            \Yii::$app->response->cookies->add(new Cookie([
+                'name' => 'pdk_id',
+                'value' => $pdk_id,
+                'expire' => 3600
+            ]));
 
-    protected function getModelApi($region_id)
-    {
-        if($region = Region::findOne($region_id)){
-            return AcmoApi::get($region->url);
+            return $this->redirect('/');
         }
-
-        return null;
     }
 }

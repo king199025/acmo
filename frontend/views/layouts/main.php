@@ -31,6 +31,9 @@ AppAsset::register($this);
     <main>
     <?= \frontend\widgets\ShowLeftSidebur::widget(); ?>
     <?= $content; ?>
+        <div class="background-request">
+            <img src="/img/ajax-loader.gif">
+        </div>
     </main>
 </div>
 

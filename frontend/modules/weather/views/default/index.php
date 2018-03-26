@@ -17,23 +17,28 @@
                     <th class="mr-photo-ico" rowspan="2"><img src="img/icons/table-photo-head.png" alt="photo"></th>
                     <th class="mr-weather-ico" rowspan="2"><img src="img/icons/table-weather-head.png" alt="weather">
                     </th>
-                    <th class="mr-fallout" colspan="3">Осадки</th>
-                    <th class="mr-temp" rowspan="2">Т возд., C</th>
-                    <th class="mr-dew" rowspan="2">Точка росы, С</th>
-                    <th class="mr-wet" rowspan="2">Влаж., %</th>
-                    <th class="mr-pressure" rowspan="2">Давл., гПа</th>
-                    <th class="mr-wind" colspan="2">Ветер</th>
-                    <th class="mr-coating" colspan="2">Покрытие</th>
+                    <th class="mr-fallout" colspan="6">Погода</th>
+                    <th class="mr-wind" colspan="3">Ветер</th>
+                    <th class="mr-coating" colspan="4">Дорога</th>
                 </tr>
                 <tr>
-                    <th class="mr-fallout-type">Тип</th>
-                    <th class="mr-fallout-sum">Сумма,мм</th>
-                    <th class="mr-fallout-intensity">Интен., мм/час</th>
+                    <th class="mr-fallout-type">Тип осадков</th>
+
+                    <!--<th class="mr-fallout-sum">Сумма,мм</th>-->
+                    <th class="mr-fallout-intensity">Интен. осадков, мм/час</th>
+                    <th class="mr-temp">Т возд., C</th>
+                    <th class="mr-dew" >Точка росы, С</th>
+                    <th class="mr-wet" >Влаж., %</th>
+                    <th class="mr-pressure" >Давл., гПа</th>
                     <th class="mr-wind-grd">грд</th>
+                    <th class="mr-wind-grd">Направление</th>
                     <th class="mr-wind-ms">м/с</th>
                     <th class="mr-coating-compos">Сост</th>
                     <th class="mr-coating-c">С</th>
+                    <th>Сцепление</th>
+                    <th>Слой осадков</th>
                 </tr>
+
                 </thead>
                 <tbody>
 
@@ -62,14 +67,16 @@
                             }
                             ?>
                         </td>
-                        <td class="mr-fallout-sum"><?php echo $item['prec_sum'] ?></td>
+                        <!--<td class="mr-fallout-sum"><?php /*echo $item['prec_sum'] */?></td>-->
                         <td class="mr-fallout-intensity"><?php echo $item['prec_intensity'] ?></td>
                         <td class="mr-temp"><?php echo $item['T'] ?></td>
                         <td class="mr-dew"><?php echo $item['dewpoint'] ?></td>
                         <td class="mr-wet"><?php echo $item['U'] ?></td>
                         <td class="mr-pressure"><?php echo $item['PO'] ?></td>
                         <td class="mr-wind-grd"><?php echo $item['DD'] ?></td>
+                        <td><img src="img/icons/wind-direction-dark.png" style="transform: rotate(<?= $item['DD']?>deg)" alt=""></td>
                         <td class="mr-wind-ms"><?php echo $item['FF'] ?></td>
+
                         <td class="mr-coating-compos">
                             <?php
                             if(isset($item['road_state'])){
@@ -78,6 +85,8 @@
                             ?>
                         </td>
                         <td class="mr-coating-c"><?php echo $item['t_road'] ?></td>
+                        <td class="mr-coating-c"><?php echo $item['adhesion'] ?></td>
+                        <td class="mr-fallout-sum"><?php echo $item['prec_sum'] ?></td>
                     </tr>
                 <?php endforeach; ?>
 

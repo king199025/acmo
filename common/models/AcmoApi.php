@@ -47,7 +47,7 @@ class AcmoApi extends BaseAPI
      */
     public function getCacheData()
     {
-        $key = 'api_object_' . date('d-m-Y H', strtotime($this->date));
+        $key = 'api_object_'. $this->id . '_' . date('d-m-Y H', strtotime($this->date));
 
         if($cache = \Yii::$app->cache->get($key)){
             return $cache;
@@ -65,7 +65,7 @@ class AcmoApi extends BaseAPI
      */
     public function setCacheData($key = null){
         if($key === null) {
-            $key = 'api_object_' . date('d-m-Y H', strtotime($this->date));
+            $key = 'api_object_' . $this->id . '_' . date('d-m-Y H', strtotime($this->date));
         }
 
         $this->getAllVideo();
@@ -84,23 +84,32 @@ class AcmoApi extends BaseAPI
      * @param $pdk_id
      * @return null|$result
      */
-    public function getVideoByVideoList($pdk_id)
+    public function getVideoByVideoList($pdk_id, $date = null)
     {
         if (empty($this->videolist)) {
-            $this->videolist = $this->getVideoList();
+            $this->videolist = $this->getVideoList($date);
         }
 
         if (!empty($this->videolist[$pdk_id]) && is_array($this->videolist[$pdk_id])) {
 
             foreach ($this->videolist[$pdk_id] as $video) {
-                $this->photo[$pdk_id][] = $this->getData('videobyid', [
-                    'id' => (isset($video['id'])) ? $video['id'] : 0
-                ]);
+                if (is_array($video)) {
+                    $video['url'] = $this->getData('videobyid', [
+                        'id' => $video['id'],
+                    ]);
+                } else {
+                    $video = [
+                        'url' => $this->no_image,
+                        'date' => date('d.m.Y H:i:s')
+                    ];
+                }
+
+                $this->photo[$pdk_id][] = $video;
             }
         }
 
-        if (!empty($result)) {
-            return $result;
+        if (!empty($this->photo[$pdk_id])) {
+            return $this->photo[$pdk_id];
         }
         return null;
     }
@@ -111,7 +120,7 @@ class AcmoApi extends BaseAPI
      */
     public function getAllVideo()
     {
-        $key = 'photo_api_' . date('d-m-Y H', strtotime($this->date));
+        $key = 'photo_api_' . $this->id . '_' . date('d-m-Y H', strtotime($this->date));
 
         if ($cache = \Yii::$app->cache->get($key)) {
             $this->photo = $cache;

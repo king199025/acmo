@@ -9,8 +9,13 @@
 namespace common\models;
 
 use common\classes\Debug;
+use console\models\ConsoleApi;
 use yii\db\Exception;
 
+/**
+ * Class BaseAPI
+ * @package common\models
+ */
 class BaseAPI
 {
     const USER_LOGIN = 'taranishin';
@@ -19,6 +24,7 @@ class BaseAPI
     public $url = '';
     public $img_path = '';
     public $no_image = '/img/default-no-image.png';
+    protected $id;
 
     //Состояние поверхности
     public static $road_state = [
@@ -59,17 +65,10 @@ class BaseAPI
     ];
 
 
-    public function __construct($url)
+    public function __construct(Region $region)
     {
-        if(is_numeric($url)){
-            $model = \backend\modules\region\models\Region::findOne($url);
-            if(!empty($model)){
-                $this->url = $model->url;
-            }else
-                throw new \yii\httpclient\Exception('Такой регион не найден', 404);
-        }else {
-            $this->url = $url;
-        }
+        $this->url = $region->url;
+        $this->id = $region->id;
 
         $this->img_path = \Yii::getAlias('@img_api');
     }
@@ -79,6 +78,10 @@ class BaseAPI
         return get_called_class();
     }
 
+    /**
+     * @param $url
+     * @return AcmoApi|ConsoleApi|BaseAPI
+     */
     public static function get($url)
     {
         $class = self::getClass();
