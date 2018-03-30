@@ -32,7 +32,7 @@
     <div class="video-archive__items">
         <?php foreach ($photos as $photo) :?>
             <figure class="video-archive__item">
-                <img src="<?php echo $photo['url']?> " alt="">
+                <a data-fancybox="images" href="<?php echo $photo['url']?>" ><img src="<?php echo $photo['url']?> " alt=""></a>
                 <figcaption><?php echo $meteo['METEO_NAME']?></figcaption>
             </figure>
         <?php endforeach;?>

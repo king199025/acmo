@@ -7,7 +7,6 @@
  * @var $next integer
  */
 ?>
-
 <!-- start video-archive.html-->
 <section class="video-archive">
     <!-- start header-section.html-->

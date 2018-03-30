@@ -31,6 +31,7 @@ class AppAsset extends AssetBundle
         '//api-maps.yandex.ru/2.1/?lang=ru-RU',
         'js/map/ACMap.js',
         'js/map/map.js',
+        '//cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',
