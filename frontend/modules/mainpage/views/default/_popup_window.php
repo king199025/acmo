@@ -94,74 +94,74 @@
                 </table>
             </div>
         </div>
-        <div class="map__modal--block">
-            <div class="map__modal--forecast">
-                <table>
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>Погода</th>
-                        <th>Ветер</th>
-                        <th>Воздух</th>
-                        <th>Дорога</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    <tr>
-                        <td class="bg-green">Сейчас</td>
-                        <td>
-                            <?php if ($forecast[0]['weather']):?>
-                                <img src="img/icons/<?php echo \common\models\AcmoApi::$weather[$forecast[0]['weather']]['img']?>" alt="">
-                            <?php endif;?>
-                        </td>
-                        <td><?php echo $forecast[0]['FF']?></td>
-                        <td><?php echo $forecast[0]['T']?></td>
-                        <td><?php echo $forecast[0]['t_road']?></td>
-                    </tr>
-                    <tr>
-                        <td class="bg-yellow"><?php echo date('H:i', strtotime($forecast[1]['WEATHER_DATE']))?></td>
-                        <td>
-                            <?php if ($forecast[1]['weather']):?>
-                                <img src="img/icons/<?php echo \common\models\AcmoApi::$weather[$forecast[1]['weather']]['img']?>" alt="">
-                            <?php endif;?>
-                        </td>
-                        <td><?php echo $forecast[1]['FF']?></td>
-                        <td><?php echo $forecast[1]['T']?></td>
-                        <td><?php echo $forecast[1]['t_road']?></td>
-                    </tr>
-                    <tr>
-                        <td class="bg-grey"><?php echo date('H:i', strtotime($forecast[2]['WEATHER_DATE']))?></td>
-                        <td>
-                            <?php if ($forecast[2]['weather']):?>
-                                <img src="img/icons/<?php echo \common\models\AcmoApi::$weather[$forecast[2]['weather']]['img']?>" alt="">
-                            <?php endif;?>
-                        </td>
-                        <td><?php echo $forecast[2]['FF']?></td>
-                        <td><?php echo $forecast[2]['T']?></td>
-                        <td><?php echo $forecast[2]['t_road']?></td>
-                    </tr>
-                    <tr>
-                        <td class="bg-grey"><?php echo date('H:i', strtotime($forecast[3]['WEATHER_DATE']))?></td>
-                        <td>
-                            <?php if ($forecast[3]['weather']):?>
-                                <img src="img/icons/<?php echo \common\models\AcmoApi::$weather[$forecast[3]['weather']]['img']?>" alt="">
-                            <?php endif;?>
-                        </td>
-                        <td><?php echo $forecast[3]['FF']?></td>
-                        <td><?php echo $forecast[3]['T']?></td>
-                        <td><?php echo $forecast[3]['t_road']?></td>
-                    </tr>
-                    </tbody>
-                </table>
-                <ul class="map__modal--review">
-                    <li><span class="bg-red"></span>Остановки в движении</li>
-                    <li><span class="bg-yellow"></span>Медленное движение</li>
-                    <li><span class="bg-green"></span>Бесперебойное движение</li>
-                    <li><span class="bg-grey"></span>Нет данных</li>
-                </ul>
-            </div>
-        </div>
+        <!--<div class="map__modal--block">-->
+        <!--    <div class="map__modal--forecast">-->
+        <!--        <table>-->
+        <!--            <thead>-->
+        <!--            <tr>-->
+        <!--                <th></th>-->
+        <!--                <th>Погода</th>-->
+        <!--                <th>Ветер</th>-->
+        <!--                <th>Воздух</th>-->
+        <!--                <th>Дорога</th>-->
+        <!--            </tr>-->
+        <!--            </thead>-->
+        <!--            <tbody>-->
+        <!---->
+        <!--            <tr>-->
+        <!--                <td class="bg-green">Сейчас</td>-->
+        <!--                <td>-->
+        <!--                    --><?php //if ($forecast[0]['weather']):?>
+        <!--                        <img src="img/icons/--><?php //echo \common\models\AcmoApi::$weather[$forecast[0]['weather']]['img']?><!--" alt="">-->
+        <!--                    --><?php //endif;?>
+        <!--                </td>-->
+        <!--                <td>--><?php //echo $forecast[0]['FF']?><!--</td>-->
+        <!--                <td>--><?php //echo $forecast[0]['T']?><!--</td>-->
+        <!--                <td>--><?php //echo $forecast[0]['t_road']?><!--</td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td class="bg-yellow">--><?php //echo date('H:i', strtotime($forecast[1]['WEATHER_DATE']))?><!--</td>-->
+        <!--                <td>-->
+        <!--                    --><?php //if ($forecast[1]['weather']):?>
+        <!--                        <img src="img/icons/--><?php //echo \common\models\AcmoApi::$weather[$forecast[1]['weather']]['img']?><!--" alt="">-->
+        <!--                    --><?php //endif;?>
+        <!--                </td>-->
+        <!--                <td>--><?php //echo $forecast[1]['FF']?><!--</td>-->
+        <!--                <td>--><?php //echo $forecast[1]['T']?><!--</td>-->
+        <!--                <td>--><?php //echo $forecast[1]['t_road']?><!--</td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td class="bg-grey">--><?php //echo date('H:i', strtotime($forecast[2]['WEATHER_DATE']))?><!--</td>-->
+        <!--                <td>-->
+        <!--                    --><?php //if ($forecast[2]['weather']):?>
+        <!--                        <img src="img/icons/--><?php //echo \common\models\AcmoApi::$weather[$forecast[2]['weather']]['img']?><!--" alt="">-->
+        <!--                    --><?php //endif;?>
+        <!--                </td>-->
+        <!--                <td>--><?php //echo $forecast[2]['FF']?><!--</td>-->
+        <!--                <td>--><?php //echo $forecast[2]['T']?><!--</td>-->
+        <!--                <td>--><?php //echo $forecast[2]['t_road']?><!--</td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td class="bg-grey">--><?php //echo date('H:i', strtotime($forecast[3]['WEATHER_DATE']))?><!--</td>-->
+        <!--                <td>-->
+        <!--                    --><?php //if ($forecast[3]['weather']):?>
+        <!--                        <img src="img/icons/--><?php //echo \common\models\AcmoApi::$weather[$forecast[3]['weather']]['img']?><!--" alt="">-->
+        <!--                    --><?php //endif;?>
+        <!--                </td>-->
+        <!--                <td>--><?php //echo $forecast[3]['FF']?><!--</td>-->
+        <!--                <td>--><?php //echo $forecast[3]['T']?><!--</td>-->
+        <!--                <td>--><?php //echo $forecast[3]['t_road']?><!--</td>-->
+        <!--            </tr>-->
+        <!--            </tbody>-->
+        <!--        </table>-->
+        <!--        <ul class="map__modal--review">-->
+        <!--            <li><span class="bg-red"></span>Остановки в движении</li>-->
+        <!--            <li><span class="bg-yellow"></span>Медленное движение</li>-->
+        <!--            <li><span class="bg-green"></span>Бесперебойное движение</li>-->
+        <!--            <li><span class="bg-grey"></span>Нет данных</li>-->
+        <!--        </ul>-->
+        <!--    </div>-->
+        <!--</div>-->
     </div>
 </div>
 <!-- end map-modal.html-->

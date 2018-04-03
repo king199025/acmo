@@ -35,6 +35,15 @@ class BaseAPI
         5 => 'Снег',
         6 => 'Лед'
     ];
+
+    public static $road_state_color = [
+        1 => 'green',
+        2 => '#7FFF00',
+        3 => 'blue',
+        4 => '#8B008B',
+        5 => '#FFFF00',
+        6 => 'red'
+    ];
     //Явления погоды
     public static $weather = [
         1 => ['name' => 'Ясно', 'img' => 'sunny.png'],
