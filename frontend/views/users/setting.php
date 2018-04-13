@@ -4,7 +4,7 @@
  * @var $user \frontend\models\user\UserDec
  */
 ?>
-<div class="row">
+<div class="row" style="color: #fff">
     <h1>Пользователь</h1>
     <div class="clo-md-6">
         <?= \yii\widgets\DetailView::widget([
