@@ -48,6 +48,7 @@ class DefaultController extends Controller
                     'lat' => $item['latitude'],
                     'lon' => $item['longitude'],
                     'temperature' => $item['T'],
+                    'rs' => AcmoApi::$road_state_color[$item['road_state']],
                     'render' => $this->renderPartial('_popup_window', [
                         'meteo' => $api->meteo[$item['METEO_ID']],
                         'forecast' => $api->getForecastInterval($item['METEO_ID'], 4),
@@ -61,7 +62,9 @@ class DefaultController extends Controller
                 'popupWindow' => $popupWindow
             ]);
         } else {
-            return $this->render('index');
+            return $this->render('index', [
+                'popupWindow' => $popupWindow
+            ]);
         }
     }
 
