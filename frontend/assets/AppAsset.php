@@ -26,12 +26,13 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         //'js/jquery-3.2.1.min.js',
-        'js/script.min.js',
         'js/ajax.js',
         '//api-maps.yandex.ru/2.1/?lang=ru-RU',
         'js/map/ACMap.js',
         'js/map/map.js',
-        '//cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js'
+        '//cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js',
+        'js/slick.min.js',
+        'js/script.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

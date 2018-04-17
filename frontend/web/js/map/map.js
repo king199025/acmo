@@ -12,8 +12,8 @@ map.customGeoCoder('Чувашия', [], function (coor) {
                 balloonContentBody:mapData[i].render
             },
             options: {
-                balloonMinWidth: 900,
-                balloonMinHeight: 400,
+                balloonMinWidth: 300,
+                balloonMinHeight: 350,
                 //balloonImageOffset: [-50, -60]
                 iconShape: {
                     type: 'Circle',
@@ -31,6 +31,15 @@ map.customGeoCoder('Чувашия', [], function (coor) {
                                 if (i != 0) {
                                     $(this).hide(0)
                                 }
+                            });
+
+                            $('.modal__slider').slick({
+                                dots: false,
+                                infinite: false,
+                                speed: 300,
+                                slidesToShow: 1,
+                                adaptiveHeight: true,
+                                arrows: true,
                             });
 
                             $(document).on('click', '.tablinks a', function (e) {
