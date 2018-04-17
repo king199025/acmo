@@ -15,5 +15,10 @@ document.addEventListener("DOMContentLoaded", function() {
         firstTd.innerText = j+1
     }
 
+    $('[data-fancybox="images"]').fancybox({
+        thumbs : {
+            autoStart : true
+        }
+    })
 
 });
